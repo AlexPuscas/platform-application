@@ -1,0 +1,2 @@
+bundles:
+    - OroAcademical\Bundle\BugTrackingBundle\OroAcademicalBugTrackingBundle
