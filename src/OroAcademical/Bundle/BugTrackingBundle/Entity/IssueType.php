@@ -2,6 +2,8 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_issue_types")
+ * @Config
  */
 class IssueType
 {
@@ -53,17 +56,6 @@ class IssueType
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     * @return IssueType
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**

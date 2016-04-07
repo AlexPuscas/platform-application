@@ -1,0 +1,34 @@
+<?php
+
+namespace OroAcademical\Bundle\BugTrackingBundle\Migrations\Data\ORM;
+
+use Doctrine\Common\Persistence\ObjectManager;
+use Oro\Bundle\DashboardBundle\Migrations\Data\ORM\AbstractDashboardFixture;
+use OroAcademical\Bundle\BugTrackingBundle\Entity\Priority;
+
+class LoadPriorityTypes extends AbstractDashboardFixture
+{
+    protected $priorityNames = [
+        'Open',
+        'In progress',
+        'Closed',
+        'Resolved',
+        'Reopened',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function load(ObjectManager $manager)
+    {
+        foreach ($this->priorityNames as $priorityName) {
+            $priority = new Priority();
+            $priority
+                ->setName($priorityName)
+                ->setDescription($priorityName);
+
+            $manager->persist($priority);
+            $manager->flush();
+        }
+    }
+}

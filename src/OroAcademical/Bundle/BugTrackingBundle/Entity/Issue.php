@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\NoteBundle\Entity\Note;
 use Oro\Bundle\TagBundle\Entity\Tag;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -14,6 +15,7 @@ use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_issues")
+ * @Config
  */
 class Issue extends ExtendIssue
 {
@@ -50,7 +52,7 @@ class Issue extends ExtendIssue
     /**
      * @var IssueType
      *
-     * @ORM\ManyToOne(targetEntity="IssueType")
+     * @ORM\ManyToOne(targetEntity="IssueType", inversedBy="issues")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $type;
@@ -58,7 +60,7 @@ class Issue extends ExtendIssue
     /**
      * @var Priority
      *
-     * @ORM\ManyToOne(targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Priority")
+     * @ORM\ManyToOne(targetEntity="Priority", inversedBy="issues")
      * @ORM\JoinColumn(name="priority_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $priority;
@@ -66,7 +68,8 @@ class Issue extends ExtendIssue
     /**
      * @var Resolution
      *
-     * @ORM\ManyToOne(targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Resolution")
+     * @ORM\ManyToOne(targetEntity="Resolution", inversedBy="issues")
+     * @ORM\JoinColumn(name="resolution_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $resolution;
 
@@ -107,7 +110,7 @@ class Issue extends ExtendIssue
     /**
      * @var Collection
      *
-     * @ORM\OneToMany((targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Issue", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Issue", mappedBy="parent", orphanRemoval=true)
      */
     protected $relatedIssues;
 
@@ -125,7 +128,7 @@ class Issue extends ExtendIssue
     /**
      * @var Issue|null
      *
-     * @ORM\ManyToOne(targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Issue")
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="relatedIssues")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $parent;
@@ -264,6 +267,8 @@ class Issue extends ExtendIssue
     public function setPriority(Priority $priority)
     {
         $this->priority = $priority;
+
+        return $this;
     }
 
     /**

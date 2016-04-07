@@ -5,9 +5,12 @@ namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_resolutions")
+ * @Config
  */
 class Resolution
 {
@@ -40,17 +43,6 @@ class Resolution
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     * @return Resolution
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**

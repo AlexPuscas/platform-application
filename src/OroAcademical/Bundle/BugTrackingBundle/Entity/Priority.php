@@ -5,9 +5,12 @@ namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_priorities")
+ * @Config
  */
 class Priority
 {
@@ -47,17 +50,6 @@ class Priority
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     * @return Priority
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
