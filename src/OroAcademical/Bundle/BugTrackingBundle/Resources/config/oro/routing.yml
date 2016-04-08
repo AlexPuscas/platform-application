@@ -1,0 +1,4 @@
+oroacademical_bugtracking_bundle:
+    resource:   "@OroAcademicalBugTrackingBundle/Controller"
+    type:       annotation
+    prefix:     /issue

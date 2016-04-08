@@ -1,0 +1,110 @@
+datagrid:
+    bugtracking-issues-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.summary
+                    - issue.code
+                    - issue.description
+                    - type.name as taskType
+                    - priority.name AS taskPriority
+#                    - resolution.name
+                    - issue.status
+#                    - issue.tags
+                    - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as taskReporter
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as taskAssignee
+#                    - issue.relatedIssues
+#                    - issue.collaborators
+#                    - issue.parent
+#                    - issue.children
+#                    - issue.notes
+                    - issue.created
+                    - issue.updated
+                from:
+                    - { table: OroAcademicalBugTrackingBundle:Issue, alias: issue }
+                join:
+                    left:
+                        - { join: issue.type, alias: type }
+                        - { join: issue.priority, alias: priority }
+                        - { join: issue.reporter, alias: reporter }
+                        - { join: issue.assignee, alias: assignee }
+        columns:
+            summary:
+                label: Summary
+            code:
+                label: Code
+            description:
+                label: Description
+            taskType:
+                label: Task Type
+            taskPriority:
+                label: Task Priority
+            status:
+                label: Status
+            taskReporter:
+                label: Task Reporter
+            taskAssignee:
+                label: Task Assignee
+            created:
+                label: Created Date
+                frontend_type: datetime
+            updated:
+                label: Updated Date
+                frontend_type: datetime
+        sorters:
+            columns:
+                summary:
+                    data_name : issue.summary
+                code:
+                    data_name: issue.code
+                description:
+                    data_name: issue.description
+                taskType:
+                    data_name: taskType
+                taskPriority:
+                    data_name: priority.priority
+                status:
+                    data_name: issue.status
+                taskReporter:
+                    data_name: taskReporter
+                taskAssignee:
+                    data_name: taskAssignee
+                created:
+                    data_name: issue.created
+                updated:
+                    data_name: issue.updated
+            default:
+                updated: DESC
+        filters:
+            columns:
+                summary:
+                    type: string
+                    data_name : issue.summary
+                code:
+                    type: string
+                    data_name: issue.code
+                description:
+                    type: string
+                    data_name: issue.description
+                taskType:
+                    type: string
+                    data_name: taskType
+                taskPriority:
+                    type: string
+                    data_name: taskPriority
+                status:
+                    type: string
+                    data_name: issue.status
+                taskReporter:
+                    type: string
+                    data_name: taskReporter
+                taskAssignee:
+                    type: string
+                    data_name: taskAssignee
+                created:
+                    type: datetime
+                    data_name: issue.created
+                updated:
+                    type: datetime
+                    data_name: issue.updated

@@ -21,11 +21,12 @@ class LoadPriorityTypes extends AbstractDashboardFixture
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->priorityNames as $priorityName) {
+        foreach ($this->priorityNames as $index => $priorityName) {
             $priority = new Priority();
             $priority
                 ->setName($priorityName)
-                ->setDescription($priorityName);
+                ->setDescription($priorityName)
+                ->setPriority($index);
 
             $manager->persist($priority);
             $manager->flush();

@@ -38,6 +38,13 @@ class Priority
     protected $description;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $priority;
+
+    /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="priority")
@@ -86,6 +93,25 @@ class Priority
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param int $priority
+     * @return Priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
 
         return $this;
     }

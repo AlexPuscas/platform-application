@@ -44,6 +44,7 @@ class LoadIssues extends AbstractDashboardFixture
         $usersCount = count($users);
         $typesCount = count($types);
         $prioritiesCount = count($priorities);
+        $date = new \DateTime();
 
         foreach ($this->fixtureConditions as $index => $condition) {
             $issue = new Issue();
@@ -56,8 +57,8 @@ class LoadIssues extends AbstractDashboardFixture
                 ->setStatus(rand(0, 1))
                 ->setReporter($users[rand(0, $usersCount - 1)])
                 ->setAssignee($users[rand(0, $usersCount - 1)])
-                ->setCreated(new \DateTime())
-                ->setUpdated(new \DateTime());
+                ->setCreated(clone $date->modify('-1 day'))
+                ->setUpdated(clone $date);
             $manager->persist($issue);
         }
 
