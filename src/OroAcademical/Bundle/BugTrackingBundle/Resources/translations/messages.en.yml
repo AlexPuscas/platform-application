@@ -1,0 +1,21 @@
+bugtracking:
+    issue:
+        entity:
+            singular_label: Issue
+            plural_label: Issues
+        summary.label: Summary
+        code.label: Code
+        description.label: Description
+        taskType.label: Task Type
+        taskPriority.label: Task Priority
+        status.label: Status
+        taskReporter.label: Task Reporter
+        taskAssignee.label: Task Assignee
+        created.label: Created Date
+        updated.label: Updated Date
+        controller.issue_saved_message: Issue saved!
+    datagrid:
+        view: View
+        delete: Delete
+        edit: Edit
+        create: Create

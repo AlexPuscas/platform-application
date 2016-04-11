@@ -1,0 +1,62 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+
+{% block navButtons %}
+    {% if resource_granted('EDIT', entity) %}
+        {{ UI.editButton({
+            'path' : path('bugtracking_issue_update', { id: entity.id }),
+            'entity_label': 'bugtracking.issue.entity.singular_label'|trans
+        }) }}
+    {% endif %}
+
+    {{ UI.deleteButton({
+        'dataUrl': path('bugtracking_issue_api_delete_issue', {'id': entity.id}),
+        'dataRedirect': path('bugtracking_issue_index'),
+        'aCss': 'no-hash remove-button',
+        'id': 'btn-remove-vehicle',
+        'dataId': entity.id,
+        'entity_label': 'bugtracking.issue.entity.singular_label'|trans,
+    }) }}
+{% endblock navButtons %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+        'entity':      entity,
+        'indexPath':   path('bugtracking_issue_index'),
+        'indexLabel': 'bugtracking.issue.entity.plural_label'|trans,
+        'entityTitle': entity.summary
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {% set data %}
+        <div class="widget-content">
+            <div class="row-fluid form-horizontal">
+                <div class="responsive-block">
+                    {{ UI.renderProperty('bugtracking.issue.summary.label'|trans, entity.summary) }}
+                    {{ UI.renderProperty('bugtracking.issue.code.label'|trans, entity.code) }}
+                    {{ UI.renderProperty('bugtracking.issue.description.label'|trans, entity.description) }}
+                    {{ UI.renderProperty('bugtracking.issue.taskType.label'|trans, entity.type.name) }}
+                    {{ UI.renderProperty('bugtracking.issue.taskPriority.label'|trans, entity.priority.name) }}
+                    {{ UI.renderProperty('bugtracking.issue.taskReporter.label'|trans, entity.reporter.fullName) }}
+                    {{ UI.renderProperty('bugtracking.issue.taskAssignee.label'|trans, entity.assignee.fullName) }}
+                    {{ UI.renderProperty('bugtracking.issue.created.label'|trans, entity.created|date) }}
+                    {{ UI.renderProperty('bugtracking.issue.updated.label'|trans, entity.updated|date) }}
+                </div>
+            </div>
+        </div>
+    {% endset %}
+    {% set dataBlocks = [
+        {
+            'title': 'Data'|trans,
+            'class': 'active',
+            'subblocks': [
+                { 'data' : [data] }
+            ]
+        }
+    ] %}
+
+    {% set id = 'issueView' %}
+    {% set data = { 'dataBlocks': dataBlocks } %}
+    {{ parent() }}
+{% endblock content_data

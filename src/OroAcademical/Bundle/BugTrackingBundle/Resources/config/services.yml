@@ -1,1 +1,31 @@
+parameters:
+    # Entity
+    oroacademical_bugtracking.issue.entity.class: OroAcademical\Bundle\BugTrackingBundle\Entity\Issue
+
+    # Form Type
+    oroacademical_bugtracking.form.type.invoice.class: OroAcademical\Bundle\BugTrackingBundle\Form\Type\IssueType
+
+    # Manager
+    oroacademical_bugtracking.issue.manager.api.class: Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
 services:
+    # Api Manager
+    oroacademical_bugtracking.issue.manager.api:
+        class: %oroacademical_bugtracking.issue.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %oroacademical_bugtracking.issue.entity.class%
+            - @doctrine.orm.entity_manager
+
+    # Form Types
+    oroacademical_bugtracking.form.type.invoice:
+        class: %oroacademical_bugtracking.form.type.invoice.class%
+        tags:
+            - { name: form.type, alias: bugtracking_issue }
+
+    # Form Instances
+    oroacademical_bugtracking.form.invocie:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: [bugtracking_issue_form, bugtracking_issue]

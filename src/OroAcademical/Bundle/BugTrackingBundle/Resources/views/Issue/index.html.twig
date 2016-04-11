@@ -2,3 +2,12 @@
 
 {% set gridName = 'bugtracking-issues-grid' %}
 {% set pageTitle = 'Issue' %}
+
+{% block navButtons %}
+    <div class="btn-group">
+        {{ UI.addButton({
+            'path' : path('bugtracking_issue_create'),
+            'entity_label': 'bugtracking.datagrid.create'|trans
+        }) }}
+    </div>
+{% endblock %}

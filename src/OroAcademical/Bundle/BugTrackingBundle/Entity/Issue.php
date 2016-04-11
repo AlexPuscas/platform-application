@@ -166,6 +166,7 @@ class Issue extends ExtendIssue
         $this->relatedIssues = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->created = $this->updated = new \DateTime();
     }
 
     /**

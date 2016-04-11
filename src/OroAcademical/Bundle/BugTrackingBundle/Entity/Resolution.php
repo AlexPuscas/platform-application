@@ -93,4 +93,9 @@ class Resolution
 
         return $this;
     }
+
+    function __toString()
+    {
+        return $this->getName();
+    }
 }

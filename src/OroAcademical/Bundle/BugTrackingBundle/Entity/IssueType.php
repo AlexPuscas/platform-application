@@ -127,5 +127,10 @@ class IssueType
 
         return $this;
     }
+
+    function __toString()
+    {
+        return $this->getName();
+    }
 }
 

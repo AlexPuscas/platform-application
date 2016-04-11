@@ -145,4 +145,9 @@ class Priority
 
         return $this;
     }
+
+    function __toString()
+    {
+        return $this->getName();
+    }
 }

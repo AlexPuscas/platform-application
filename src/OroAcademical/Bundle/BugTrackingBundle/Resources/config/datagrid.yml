@@ -4,6 +4,7 @@ datagrid:
             type: orm
             query:
                 select:
+                    - issue.id
                     - issue.summary
                     - issue.code
                     - issue.description
@@ -31,26 +32,26 @@ datagrid:
                         - { join: issue.assignee, alias: assignee }
         columns:
             summary:
-                label: Summary
+                label: bugtracking.issue.summary.label
             code:
-                label: Code
+                label: bugtracking.issue.code.label
             description:
-                label: Description
+                label: bugtracking.issue.description.label
             taskType:
-                label: Task Type
+                label: bugtracking.issue.taskType.label
             taskPriority:
-                label: Task Priority
+                label: bugtracking.issue.taskPriority.label
             status:
-                label: Status
+                label: bugtracking.issue.status.label
             taskReporter:
-                label: Task Reporter
+                label: bugtracking.issue.taskReporter.label
             taskAssignee:
-                label: Task Assignee
+                label: bugtracking.issue.taskAssignee.label
             created:
-                label: Created Date
+                label: bugtracking.issue.created.label
                 frontend_type: datetime
             updated:
-                label: Updated Date
+                label: bugtracking.issue.updated.label
                 frontend_type: datetime
         sorters:
             columns:
@@ -108,3 +109,41 @@ datagrid:
                 updated:
                     type: datetime
                     data_name: issue.updated
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      bugtracking_issue_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      bugtracking_issue_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      bugtracking_issue_api_delete_issue
+                params:     [ id ]
+        actions:
+            view:
+                type:       navigate
+                label:      bugtracking.datagrid.view
+                icon:       eye-open
+                link:       view_link
+                rowAction:  true
+            update:
+                type:       navigate
+                label:      bugtracking.datagrid.update
+                icon:       edit
+                link:       update_link
+            delete:
+                type:       delete
+                label:      bugtracking.datagrid.delete
+                icon:       trash
+                link:       delete_link
+        mass_actions:
+            delete:
+                type: delete
+                entity_name: %oroacademical_bugtracking.issue.entity.class%
+                data_identifier: issue.id
+                label: bugtracking.datagrid.delete
+                icon: trash
