@@ -5,51 +5,38 @@ namespace OroAcademical\Bundle\BugTrackingBundle\Migrations\Schema\v1_2;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
-use Oro\Bundle\EntityExtendBundle\Tools\ExtendDbIdentifierNameGenerator;
-use Oro\Bundle\MigrationBundle\Migration\Extension\NameGeneratorAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\MigrationBundle\Tools\DbIdentifierNameGenerator;
 
-class OroAcademicalBugTrackingBundle implements
-    Migration,
-    NameGeneratorAwareInterface,
-    ExtendExtensionAwareInterface,
-    ActivityExtensionAwareInterface
+class OroAcademicalBugTrackingBundle implements Migration, ActivityExtensionAwareInterface
 {
     /** @var ActivityExtension */
     protected $activityExtension;
 
     /**
-     * @var ExtendDbIdentifierNameGenerator
+     * {@inheritdoc}
      */
-    protected $nameGenerator;
-
-    /**
-     * @var ExtendExtension
-     */
-    protected $extendExtension;
-
     public function setActivityExtension(ActivityExtension $activityExtension)
     {
-        // TODO: Implement setActivityExtension() method.
+        $this->activityExtension = $activityExtension;
     }
 
-    public function setExtendExtension(ExtendExtension $extendExtension)
-    {
-        // TODO: Implement setExtendExtension() method.
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function up(Schema $schema, QueryBag $queries)
     {
-        // TODO: Implement up() method.
+        self::addActivityAssociations($schema, $this->activityExtension);
     }
 
-    public function setNameGenerator(DbIdentifierNameGenerator $nameGenerator)
+    /**
+     * Enables Email activity for User entity
+     *
+     * @param Schema            $schema
+     * @param ActivityExtension $activityExtension
+     */
+    public static function addActivityAssociations(Schema $schema, ActivityExtension $activityExtension)
     {
-        // TODO: Implement setNameGenerator() method.
+        $activityExtension->addActivityAssociation($schema, 'oro_email', 'bugtracking_issues', true);
     }
-
 }
