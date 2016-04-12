@@ -141,6 +141,7 @@ class OroAcademicalBugTrackingBundle implements Installation
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['length' => 255]);
         $table->addColumn('description', 'text', []);
+        $table->addColumn('priority', 'integer', []);
         $table->setPrimaryKey(['id']);
     }
 
