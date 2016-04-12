@@ -9,15 +9,17 @@
 {% endif %}
 
 {% block navButtons %}
-    {{ UI.deleteButton({
-        'dataUrl': path('bugtracking_issue_api_delete_issue', {'id': form.vars.value.id}),
-        'dataRedirect': path('bugtracking_issue_index'),
-        'aCss': 'no-hash remove-button',
-        'id': 'btn-remove-tag',
-        'dataId': form.vars.value.id,
-        'entity_label': 'bugtracking.issue.entity.singular_label'|trans
-    }) }}
-    {{ UI.buttonSeparator() }}
+    {% if form.vars.value.id %}
+        {{ UI.deleteButton({
+            'dataUrl': path('bugtracking_issue_api_delete_issue', {'id': form.vars.value.id}),
+            'dataRedirect': path('bugtracking_issue_index'),
+            'aCss': 'no-hash remove-button',
+            'id': 'btn-remove-tag',
+            'dataId': form.vars.value.id,
+            'entity_label': 'bugtracking.issue.entity.singular_label'|trans
+        }) }}
+        {{ UI.buttonSeparator() }}
+    {% endif %}
 
     {{ UI.cancelButton(path('bugtracking_issue_index')) }}
     {% set html = UI.saveAndCloseButton() %}

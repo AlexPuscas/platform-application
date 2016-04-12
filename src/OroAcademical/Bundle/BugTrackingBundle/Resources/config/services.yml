@@ -3,7 +3,11 @@ parameters:
     oroacademical_bugtracking.issue.entity.class: OroAcademical\Bundle\BugTrackingBundle\Entity\Issue
 
     # Form Type
-    oroacademical_bugtracking.form.type.invoice.class: OroAcademical\Bundle\BugTrackingBundle\Form\Type\IssueType
+    oroacademical_bugtracking.form.type.issue.class: OroAcademical\Bundle\BugTrackingBundle\Form\Type\IssueType
+    oroacademical_bugtracking.form.type.issue.api.class: OroAcademical\Bundle\BugTrackingBundle\Form\Type\IssueApiType
+
+    # Form Handler
+    oroacademical_bugtracking.form.handler.issue.class: OroAcademical\Bundle\BugTrackingBundle\Form\Handler\IssueHandler
 
     # Manager
     oroacademical_bugtracking.issue.manager.api.class: Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
@@ -18,14 +22,32 @@ services:
             - @doctrine.orm.entity_manager
 
     # Form Types
-    oroacademical_bugtracking.form.type.invoice:
-        class: %oroacademical_bugtracking.form.type.invoice.class%
+    oroacademical_bugtracking.form.type.issue:
+        class: %oroacademical_bugtracking.form.type.issue.class%
         tags:
             - { name: form.type, alias: bugtracking_issue }
+    oroacademical_bugtracking.form.type.api.issue:
+            class: %oroacademical_bugtracking.form.type.issue.api.class%
+            tags:
+                - { name: form.type, alias: bugtracking_issue_api }
 
     # Form Instances
-    oroacademical_bugtracking.form.invocie:
+    oroacademical_bugtracking.form.issue:
         class: Symfony\Component\Form\Form
         factory_method: createNamed
         factory_service: form.factory
         arguments: [bugtracking_issue_form, bugtracking_issue]
+    oroacademical_bugtracking.form.issue.api:
+            class: Symfony\Component\Form\Form
+            factory_method: createNamed
+            factory_service: form.factory
+            arguments: [bugtracking_issue_form, bugtracking_issue_api]
+
+    # Form Handler
+    oroacademical_bugtracking.form.handler.issue.api:
+        class: %oroacademical_bugtracking.form.handler.issue.class%
+        scope: request
+        arguments:
+            - @oroacademical_bugtracking.form.issue.api
+            - @request
+            - @doctrine.orm.entity_manager

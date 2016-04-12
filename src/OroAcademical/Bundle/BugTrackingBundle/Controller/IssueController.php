@@ -53,7 +53,7 @@ class IssueController extends Controller
 
         return $this->get('oro_form.model.update_handler')->handleUpdate(
             $issue,
-            $this->get('oroacademical_bugtracking.form.invocie'),
+            $this->get('oroacademical_bugtracking.form.issue'),
             function (Issue $issue) {
                 return [
                     'route' => 'bugtracking_issue_update',
