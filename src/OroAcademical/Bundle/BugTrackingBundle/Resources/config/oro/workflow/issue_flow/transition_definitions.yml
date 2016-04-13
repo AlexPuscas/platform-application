@@ -1,0 +1,8 @@
+workflow:
+    issue_flow:
+        transition_definitions:
+            start_progress_definition: ~
+            resolve_definition: ~
+            close_definition: ~
+            stop_progress_definition: ~
+            reopen_definition: ~
