@@ -7,15 +7,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\NoteBundle\Entity\Note;
-use Oro\Bundle\TagBundle\Entity\Tag;
 use Oro\Bundle\UserBundle\Entity\User;
 use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_issues")
- * @Config
+ * @Config(
+ *     defaultValues={
+ *          "tag"={
+ *              "enabled"=true
+ *          }
+ *     }
+ * )
  */
 class Issue extends ExtendIssue
 {
@@ -79,17 +85,6 @@ class Issue extends ExtendIssue
      * @ORM\Column(type="integer")
      */
     protected $status;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\TagBundle\Entity\Tag")
-     * @ORM\JoinTable(name="bugtracking_issues_to_oro_tag_tag",
-     *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="issue_tag_id", referencedColumnName="id", onDelete="CASCADE")}
-     * )
-     */
-    protected $tags;
 
     /**
      * @var User
@@ -162,7 +157,6 @@ class Issue extends ExtendIssue
     {
         parent::__construct();
 
-        $this->tags = new ArrayCollection();
         $this->relatedIssues = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
         $this->notes = new ArrayCollection();
@@ -306,36 +300,6 @@ class Issue extends ExtendIssue
     public function setStatus($status)
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * @param Tag $tag
-     * @return Issue
-     */
-    public function addTag(Tag $tag)
-    {
-        $this->tags->add($tag);
-
-        return $this;
-    }
-
-    /**
-     * @param Tag $tag
-     * @return Issue
-     */
-    public function removeTag(Tag $tag)
-    {
-        $this->tags->removeElement($tag);
 
         return $this;
     }

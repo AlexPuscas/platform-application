@@ -9,11 +9,10 @@ use OroAcademical\Bundle\BugTrackingBundle\Entity\Priority;
 class LoadPriorityTypes extends AbstractDashboardFixture
 {
     protected $priorityNames = [
-        'Open',
-        'In progress',
-        'Closed',
-        'Resolved',
-        'Reopened',
+        'Blocker',
+        'Critical',
+        'Major',
+        'Trivial',
     ];
 
     /**
