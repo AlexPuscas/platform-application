@@ -1,0 +1,24 @@
+{{ UI.clientButton({
+    'dataUrl': path('bugtracking_issue_create', oro_action_params(entity, 'activity')),
+    'aCss': 'no-hash',
+    'iCss': 'icon-bug',
+    'dataId': entity.id,
+    'label': 'bugtracking.issue.add_entity'|trans,
+    'title': 'bugtracking.issue.entity.singular_label'|trans,
+    'widget' : {
+        'type' : 'dialog',
+        'multiple' : true,
+        'refresh-widget-alias': 'activity-list-widget',
+        'options' : {
+            'alias': 'issue-dialog',
+            'dialogOptions' : {
+                'title' : 'bugtracking.issue.add_entity'|trans,
+                'allowMaximize': true,
+                'allowMinimize': true,
+                'dblclick': 'maximize',
+                'maximizedHeightDecreaseBy': 'minimize-bar',
+                'width': 1000
+            }
+        }
+    }
+}) }}

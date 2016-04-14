@@ -1,0 +1,5 @@
+items:
+    bugtracking_add_issue_button:
+        template: OroAcademicalBugTrackingBundle:Issue:activityButton.html.twig
+    bugtracking_add_issue_link:
+        template: OroAcademicalBugTrackingBundle:Issue:activityLink.html.twig

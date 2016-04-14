@@ -2,7 +2,7 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
 {% form_theme form with 'OroFormBundle:Form:fields.html.twig' %}
 
-{% if form.vars.value.id %}
+{% if form.vars.value and form.vars.value.id %}
     {% set formAction = path('bugtracking_issue_update', { 'id': form.vars.value.id }) %}
 {% else %}
     {% set formAction = path('bugtracking_issue_create') %}

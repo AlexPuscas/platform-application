@@ -19,7 +19,13 @@ use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
  *     defaultValues={
  *          "tag"={
  *              "enabled"=true
- *          }
+ *          },
+ *          "activity"={
+ *              "route"="bugtracking_issue_activity_view",
+ *              "action_button_widget"="bugtracking_add_issue_button",
+ *              "action_link_widget"="bugtracking_add_issue_link"
+ *          },
+ *          "grouping"={"groups"={"activity"}}
  *     }
  * )
  */

@@ -2,8 +2,13 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Model;
 
-class ExtendIssue
+use Oro\Bundle\ActivityBundle\Model\ActivityInterface;
+use Oro\Bundle\ActivityBundle\Model\ExtendActivity;
+
+class ExtendIssue implements ActivityInterface
 {
+    use ExtendActivity;
+
     /**
      * Constructor
      *
