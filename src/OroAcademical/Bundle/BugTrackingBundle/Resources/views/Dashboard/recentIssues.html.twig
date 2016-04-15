@@ -1,0 +1,16 @@
+{% extends 'OroDashboardBundle:Dashboard:widget.html.twig' %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% block content %}
+    {{ dataGrid.renderGrid('dashboard-recent-issues-grid', {'loggedUser' : app.user.id}) }}
+{% endblock %}
+
+{% block actions %}
+    {% set actions = [{
+        'url': path('bugtracking_issue_index'),
+        'type': 'link',
+        'label': 'bugtracking.issue.view_all'|trans
+    }] %}
+
+    {{ parent() }}
+{% endblock %}

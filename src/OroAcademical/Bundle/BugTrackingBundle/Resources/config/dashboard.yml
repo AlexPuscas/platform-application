@@ -1,0 +1,7 @@
+oro_dashboard_config:
+    widgets:
+        recent_issues:
+            label: bugtracking.dashboard.recent_isues.title
+            route: oro_dashboard_widget
+            route_parameters: { bundle: OroAcademicalBugTrackingBundle, name: recentIssues }
+            description: bugtracking.dashboard.recent_isues.description

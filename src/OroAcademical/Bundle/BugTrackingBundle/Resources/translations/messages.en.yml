@@ -17,8 +17,13 @@ bugtracking:
         updated.label: Updated Date
         controller.issue_saved_message: Issue saved!
         add_entity: Add Issue
+        view_all: View All Issues
     datagrid:
         view: View
         delete: Delete
         edit: Edit
         create: Create
+    dashboard:
+        recent_isues:
+            title: Recent Issues
+            description: This widget allows you to see most recent active issues
