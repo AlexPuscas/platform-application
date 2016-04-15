@@ -62,6 +62,15 @@ class IssueType extends AbstractType
                 ]
             )
             ->add(
+                'parent',
+                'entity',
+                [
+                    'required' => false,
+                    'label' => 'bugtracking.issue.parent.label',
+                    'class'  => 'OroAcademicalBugTrackingBundle:Issue',
+                ]
+            )
+            ->add(
                 'reporter',
                 'entity',
                 [

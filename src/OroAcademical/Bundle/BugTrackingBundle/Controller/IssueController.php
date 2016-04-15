@@ -2,6 +2,8 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Controller;
 
+use Doctrine\Common\Persistence\ObjectRepository;
+use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,16 +27,33 @@ class IssueController extends Controller
      */
     public function viewAction(Issue $issue)
     {
-        return ['entity' => $issue];
+        $storyType = $this
+            ->getRepository('OroAcademicalBugTrackingBundle:IssueType')
+            ->findOneByName(IssueType::STORY_TYPE);
+        if ($storyType->getId() == $issue->getType()->getId()){
+
+        }
+        return [
+            'entity' => $issue,
+            'storyType' => $storyType,
+        ];
     }
 
     /**
-     * @Route("/create", name="bugtracking_issue_create")
+     * @Route("/create/{id}", name="bugtracking_issue_create", requirements={"id"="\d+"}, defaults={"id" = null})
      * @Template("OroAcademicalBugTrackingBundle:Issue:update.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Issue $parent = null, Request $request)
     {
-        return $this->update(new Issue(), $request);
+        $issue = new Issue();
+        if ($parent && $parent->getType()->getName() == IssueType::STORY_TYPE) {
+            $subTaskType = $this
+                ->getRepository('OroAcademicalBugTrackingBundle:IssueType')
+                ->findOneByName(IssueType::SUB_TASK_TYPE);
+            $issue->setParent($parent)->setType($subTaskType);
+        }
+
+        return $this->update($issue, $request);
     }
 
     /**
@@ -84,5 +103,14 @@ class IssueController extends Controller
         return array(
             'entity' => $this->get('oro_entity.routing_helper')->getEntity($entityClass, $entityId)
         );
+    }
+
+    /**
+     * @param string $entityName
+     * @return ObjectRepository
+     */
+    protected function getRepository($entityName)
+    {
+        return $this->getDoctrine()->getRepository($entityName);
     }
 }

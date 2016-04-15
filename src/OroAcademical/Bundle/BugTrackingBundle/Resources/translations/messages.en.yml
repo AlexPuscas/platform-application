@@ -3,12 +3,14 @@ bugtracking:
         entity:
             singular_label: Issue
             plural_label: Issues
+            sub_task: SubTask
         summary.label: Summary
         code.label: Code
         description.label: Description
         taskType.label: Task Type
         taskPriority.label: Task Priority
         status.label: Status
+        parent.label: Parent Task
         taskReporter.label: Task Reporter
         taskAssignee.label: Task Assignee
         created.label: Created Date

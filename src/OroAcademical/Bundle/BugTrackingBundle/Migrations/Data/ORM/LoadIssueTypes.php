@@ -9,10 +9,10 @@ use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType;
 class LoadIssueTypes extends AbstractDashboardFixture
 {
     protected $issueTypeNames = [
-        'Bug',
-        'SubTask',
-        'Task',
-        'Story',
+        IssueType::BUG_TYPE,
+        IssueType::SUB_TASK_TYPE,
+        IssueType::TASK_TYPE,
+        IssueType::STORY_TYPE,
     ];
 
     /**

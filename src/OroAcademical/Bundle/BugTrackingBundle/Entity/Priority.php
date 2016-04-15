@@ -14,6 +14,11 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  */
 class Priority
 {
+    const BLOCKER_PRIORITY = 'Blocker';
+    const CRITICAL_PRIORITY = 'Critical';
+    const MAJOR_PRIORITY = 'Major';
+    const TRIVIAL_PRIORITY = 'Trivial';
+
     /**
      * @var int
      *

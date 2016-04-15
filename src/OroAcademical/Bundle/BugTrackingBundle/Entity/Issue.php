@@ -494,4 +494,9 @@ class Issue extends ExtendIssue
 
         return $this;
     }
+
+    function __toString()
+    {
+        return $this->getSummary();
+    }
 }
