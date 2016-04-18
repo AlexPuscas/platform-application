@@ -1,5 +1,10 @@
 items:
     bugtracking_add_issue_button:
-        template: OroAcademicalBugTrackingBundle:Issue:activityButton.html.twig
-    bugtracking_add_issue_link:
-        template: OroAcademicalBugTrackingBundle:Issue:activityLink.html.twig
+        template: OroAcademicalBugTrackingBundle:Dashboard:addButton.html.twig
+        applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)'
+
+placeholders:
+    view_navButtons_before:
+        items:
+            bugtracking_add_issue_button:
+                order: 100

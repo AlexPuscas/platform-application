@@ -19,12 +19,6 @@ use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
  *          "tag"={
  *              "enabled"=true
  *          },
- *          "activity"={
- *              "route"="bugtracking_issue_activity_view",
- *              "action_button_widget"="bugtracking_add_issue_button",
- *              "action_link_widget"="bugtracking_add_issue_link"
- *          },
- *          "grouping"={"groups"={"activity"}}
  *     }
  * )
  */
@@ -118,7 +112,7 @@ class Issue extends ExtendIssue
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinTable(name="bugtracking_issues_to_oro_user_user",
+     * @ORM\JoinTable(name="bugtr_issues_to_oro_user_user",
      *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="issue_collaborator_id", referencedColumnName="id", onDelete="CASCADE")}
      * )

@@ -30,9 +30,7 @@ class IssueController extends Controller
         $storyType = $this
             ->getRepository('OroAcademicalBugTrackingBundle:IssueType')
             ->findOneByName(IssueType::STORY_TYPE);
-        if ($storyType->getId() == $issue->getType()->getId()){
 
-        }
         return [
             'entity' => $issue,
             'storyType' => $storyType,
@@ -84,24 +82,6 @@ class IssueController extends Controller
             },
             $this->get('translator')->trans('bugtracking.issue.controller.issue_saved_message'),
             $this->get('oroacademical_bugtracking.form.handler.issue.api')
-        );
-    }
-
-    /**
-     * This action is used to render the list of emails associated with the given entity
-     * on the view page of this entity
-     *
-     * @Route(
-     *      "/activity/view/{entityClass}/{entityId}",
-     *      name="bugtracking_issue_activity_view"
-     * )
-     *
-     * @Template()
-     */
-    public function activityAction($entityClass, $entityId)
-    {
-        return array(
-            'entity' => $this->get('oro_entity.routing_helper')->getEntity($entityClass, $entityId)
         );
     }
 

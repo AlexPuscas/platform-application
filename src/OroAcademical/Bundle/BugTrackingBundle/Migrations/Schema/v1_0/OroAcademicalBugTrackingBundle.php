@@ -84,13 +84,13 @@ class OroAcademicalBugTrackingBundle implements Installation
     }
 
     /**
-     * Create bugtracking_issues_to_oro_tag_tag table
+     * Create bugtr_issues_to_oro_tag_tag table
      *
      * @param Schema $schema
      */
     protected function createBugtrackingIssuesToOroTagTagTable(Schema $schema)
     {
-        $table = $schema->createTable('bugtracking_issues_to_oro_tag_tag');
+        $table = $schema->createTable('bugtr_issues_to_oro_tag_tag');
         $table->addColumn('issue_id', 'integer', []);
         $table->addColumn('issue_tag_id', 'integer', []);
         $table->setPrimaryKey(['issue_id', 'issue_tag_id']);
@@ -99,13 +99,13 @@ class OroAcademicalBugTrackingBundle implements Installation
     }
 
     /**
-     * Create bugtracking_issues_to_oro_user_user table
+     * Create bugtr_issues_to_oro_user table
      *
      * @param Schema $schema
      */
     protected function createBugtrackingIssuesToOroUserUserTable(Schema $schema)
     {
-        $table = $schema->createTable('bugtracking_issues_to_oro_user_user');
+        $table = $schema->createTable('bugtr_issues_to_oro_user_user');
         $table->addColumn('issue_id', 'integer', []);
         $table->addColumn('issue_collaborator_id', 'integer', []);
         $table->setPrimaryKey(['issue_id', 'issue_collaborator_id']);
@@ -188,13 +188,13 @@ class OroAcademicalBugTrackingBundle implements Installation
     }
 
     /**
-     * Add bugtracking_issues_to_oro_tag_tag foreign keys.
+     * Add bugtr_issues_to_oro_tag_tag foreign keys.
      *
      * @param Schema $schema
      */
     protected function addBugtrackingIssuesToOroTagTagForeignKeys(Schema $schema)
     {
-        $table = $schema->getTable('bugtracking_issues_to_oro_tag_tag');
+        $table = $schema->getTable('bugtr_issues_to_oro_tag_tag');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_tag_tag'),
             ['issue_tag_id'],
@@ -210,13 +210,13 @@ class OroAcademicalBugTrackingBundle implements Installation
     }
 
     /**
-     * Add bugtracking_issues_to_oro_user_user foreign keys.
+     * Add bugtr_issues_to_oro_user_user foreign keys.
      *
      * @param Schema $schema
      */
     protected function addBugtrackingIssuesToOroUserUserForeignKeys(Schema $schema)
     {
-        $table = $schema->getTable('bugtracking_issues_to_oro_user_user');
+        $table = $schema->getTable('bugtr_issues_to_oro_user_user');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_user'),
             ['issue_collaborator_id'],

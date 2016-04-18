@@ -22,7 +22,7 @@ bugtracking:
         view: View
         delete: Delete
         edit: Edit
-        create: Create
+        create: Issue
     dashboard:
         recent_isues:
             title: Recent Issues
