@@ -8,12 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\NoteBundle\Entity\Note;
 use Oro\Bundle\UserBundle\Entity\User;
 use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="OroAcademical\Bundle\BugTrackingBundle\Repository\IssueRepository")
  * @ORM\Table(name="bugtracking_issues")
  * @Config(
  *     defaultValues={
@@ -88,7 +87,7 @@ class Issue extends ExtendIssue
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true, options={"default":1})
      */
     protected $status;
 
@@ -135,17 +134,6 @@ class Issue extends ExtendIssue
     protected $parent;
 
     /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\NoteBundle\Entity\Note")
-     * @ORM\JoinTable(name="bugtracking_issues_to_oro_note_note",
-     *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="issue_note_id", referencedColumnName="id", onDelete="CASCADE")}
-     * )
-     */
-    protected $notes;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
@@ -159,13 +147,35 @@ class Issue extends ExtendIssue
      */
     protected $updated;
 
+    public static function getStatusName($status)
+    {
+        switch ($status) {
+            case 1:
+                return 'Open';
+                break;
+            case 2 :
+                return 'In Progress';
+                break;
+            case 3:
+                return 'Closed';
+                break;
+            case 4:
+                return 'Resolved';
+                break;
+            case 5:
+                return 'Reopened';
+                break;
+            default:
+                return 'Undefined';
+        }
+    }
+
     public function __construct()
     {
         parent::__construct();
 
         $this->relatedIssues = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
-        $this->notes = new ArrayCollection();
         $this->created = $this->updated = new \DateTime();
     }
 
@@ -423,36 +433,6 @@ class Issue extends ExtendIssue
     public function setParent($parent)
     {
         $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getNotes()
-    {
-        return $this->notes;
-    }
-
-    /**
-     * @param Note $note
-     * @return Issue
-     */
-    public function addNotes(Note $note)
-    {
-        $this->notes->add($note);
-
-        return $this;
-    }
-
-    /**
-     * @param Note $note
-     * @return Issue
-     */
-    public function removeNotes(Note $note)
-    {
-        $this->notes->removeElement($note);
 
         return $this;
     }

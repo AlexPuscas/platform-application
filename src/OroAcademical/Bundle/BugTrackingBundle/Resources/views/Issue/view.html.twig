@@ -68,6 +68,7 @@
                         {%- endif -%}
                     {%- endset -%}
                     {{ UI.renderHtmlProperty('bugtracking.issue.taskReporter.label'|trans, reporterData) }}
+                    {{ UI.renderProperty('bugtracking.issue.status.label'|trans, entity.status) }}
                     {{ UI.renderProperty('bugtracking.issue.created.label'|trans, entity.created|date) }}
                     {{ UI.renderProperty('bugtracking.issue.updated.label'|trans, entity.updated|date) }}
                 </div>

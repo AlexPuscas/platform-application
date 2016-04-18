@@ -28,7 +28,6 @@ class OroAcademicalBugTrackingBundle implements Installation
         /** Tables generation **/
         $this->createBugtrackingIssueTypesTable($schema);
         $this->createBugtrackingIssuesTable($schema);
-        $this->createBugtrackingIssuesToOroNoteNoteTable($schema);
         $this->createBugtrackingIssuesToOroTagTagTable($schema);
         $this->createBugtrackingIssuesToOroUserUserTable($schema);
         $this->createBugtrackingPrioritiesTable($schema);
@@ -36,7 +35,6 @@ class OroAcademicalBugTrackingBundle implements Installation
 
         /** Foreign keys generation **/
         $this->addBugtrackingIssuesForeignKeys($schema);
-        $this->addBugtrackingIssuesToOroNoteNoteForeignKeys($schema);
         $this->addBugtrackingIssuesToOroTagTagForeignKeys($schema);
         $this->addBugtrackingIssuesToOroUserUserForeignKeys($schema);
     }
@@ -83,21 +81,6 @@ class OroAcademicalBugTrackingBundle implements Installation
         $table->addIndex(['reporter_user_id'], 'IDX_7484C4BBDF3D6D95', []);
         $table->addIndex(['assignee_user_id'], 'IDX_7484C4BBBA8D7F59', []);
         $table->addIndex(['parent_id'], 'IDX_7484C4BB727ACA70', []);
-    }
-
-    /**
-     * Create bugtracking_issues_to_oro_note_note table
-     *
-     * @param Schema $schema
-     */
-    protected function createBugtrackingIssuesToOroNoteNoteTable(Schema $schema)
-    {
-        $table = $schema->createTable('bugtracking_issues_to_oro_note_note');
-        $table->addColumn('issue_id', 'integer', []);
-        $table->addColumn('issue_note_id', 'integer', []);
-        $table->setPrimaryKey(['issue_id', 'issue_note_id']);
-        $table->addIndex(['issue_id'], 'IDX_6D75E2C95E7AA58C', []);
-        $table->addIndex(['issue_note_id'], 'IDX_6D75E2C983154DB4', []);
     }
 
     /**
@@ -201,28 +184,6 @@ class OroAcademicalBugTrackingBundle implements Installation
             ['reporter_user_id'],
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
-        );
-    }
-
-    /**
-     * Add bugtracking_issues_to_oro_note_note foreign keys.
-     *
-     * @param Schema $schema
-     */
-    protected function addBugtrackingIssuesToOroNoteNoteForeignKeys(Schema $schema)
-    {
-        $table = $schema->getTable('bugtracking_issues_to_oro_note_note');
-        $table->addForeignKeyConstraint(
-            $schema->getTable('bugtracking_issues'),
-            ['issue_id'],
-            ['id'],
-            ['onDelete' => 'CASCADE', 'onUpdate' => null]
-        );
-        $table->addForeignKeyConstraint(
-            $schema->getTable('oro_note'),
-            ['issue_note_id'],
-            ['id'],
-            ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
     }
 

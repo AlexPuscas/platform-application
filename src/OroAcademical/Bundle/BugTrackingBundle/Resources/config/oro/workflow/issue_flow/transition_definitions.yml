@@ -1,8 +1,18 @@
 workflow:
     issue_flow:
         transition_definitions:
-            start_progress_definition: ~
-            resolve_definition: ~
-            close_definition: ~
-            stop_progress_definition: ~
-            reopen_definition: ~
+            start_progress_definition:
+                post_actions:
+                    - @assign_value: [$issue.status, 2]
+            resolve_definition:
+                post_actions:
+                    - @assign_value: [$issue.status, 4]
+            close_definition:
+                post_actions:
+                    - @assign_value: [$issue.status, 3]
+            stop_progress_definition:
+                post_actions:
+                    - @assign_value: [$issue.status, 1]
+            reopen_definition:
+                post_actions:
+                    - @assign_value: [$issue.status, 5]

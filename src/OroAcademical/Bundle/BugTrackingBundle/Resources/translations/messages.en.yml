@@ -27,3 +27,15 @@ bugtracking:
         recent_isues:
             title: Recent Issues
             description: This widget allows you to see most recent active issues
+        issue_chart_by_status:
+            title: Issues By Status Chart
+            description: This chart allows you to see issues number by status
+            status:
+                label: Status
+                0: Undefined
+                1: Open
+                2: In Progress
+                3: Closed
+                4: Resolved
+                5: Reopened
+            numberOfIssues.label: Number Of Issues

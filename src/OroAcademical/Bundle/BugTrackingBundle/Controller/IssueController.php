@@ -14,7 +14,7 @@ class IssueController extends Controller
 {
     /**
      * @Route("/", name="bugtracking_issue_index")
-     * @Template
+     * @Template()
      */
     public function indexAction()
     {
@@ -96,7 +96,7 @@ class IssueController extends Controller
      *      name="bugtracking_issue_activity_view"
      * )
      *
-     * @Template
+     * @Template()
      */
     public function activityAction($entityClass, $entityId)
     {
