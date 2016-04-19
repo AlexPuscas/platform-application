@@ -329,6 +329,7 @@ class Issue extends ExtendIssue
     public function setReporter(User $reporter)
     {
         $this->reporter = $reporter;
+        $this->addCollaborator($reporter);
 
         return $this;
     }
@@ -348,6 +349,7 @@ class Issue extends ExtendIssue
     public function setAssignee(User $assignee)
     {
         $this->assignee = $assignee;
+        $this->addCollaborator($assignee);
 
         return $this;
     }
@@ -394,9 +396,11 @@ class Issue extends ExtendIssue
      * @param User $collaborator
      * @return Issue
      */
-    public function addCollaborator(User $collaborator)
+    public function addCollaborator(User $collaborator = null)
     {
-        $this->collaborators->add($collaborator);
+        if ($collaborator && !$this->collaborators->contains($collaborator)) {
+            $this->collaborators->add($collaborator);
+        }
 
         return $this;
     }

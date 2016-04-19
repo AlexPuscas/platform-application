@@ -44,6 +44,15 @@
                     {{ UI.renderProperty('bugtracking.issue.description.label'|trans, entity.description) }}
                     {{ UI.renderProperty('bugtracking.issue.taskType.label'|trans, entity.type.name) }}
                     {{ UI.renderProperty('bugtracking.issue.taskPriority.label'|trans, entity.priority.name) }}
+                    {% if entity.parent %}
+                        {% set link %}
+                            {{ UI.link({
+                                'path': path('bugtracking_issue_view', {id: entity.parent.id}),
+                                'label': entity.parent.summary
+                            }) }}
+                        {% endset %}
+                        {{ UI.renderHtmlProperty('bugtracking.issue.parent.label'|trans, link) }}
+                    {% endif %}
                     {%- set assigneeData -%}
                         {%- if entity.assignee -%}
                             {% if resource_granted('oro_user_user_view') %}
@@ -68,9 +77,46 @@
                         {%- endif -%}
                     {%- endset -%}
                     {{ UI.renderHtmlProperty('bugtracking.issue.taskReporter.label'|trans, reporterData) }}
+                    {% if entity.collaborators|length > 0 %}
+                        {{ UI.renderProperty('bugtracking.issue.subtask.count'|trans, entity.collaborators|length) }}
+                        {% for collaborator in entity.collaborators %}
+                            {%- set collaboratorData -%}
+                                {%- if collaborator -%}
+                                    {% if resource_granted('oro_user_user_view') %}
+                                        <a href="{{ path('oro_user_view', {'id': collaborator.id}) }}">
+                                            {{ collaborator|oro_format_name|escape }}
+                                        </a>
+                                    {% else %}
+                                        {{ collaborator|oro_format_name|escape }}
+                                    {% endif %}
+                                {%- endif -%}
+                            {%- endset -%}
+                            {{ UI.renderHtmlProperty('bugtracking.issue.collaborators.label'|trans, collaboratorData ) }}
+                        {% endfor %}
+                    {% endif %}
                     {{ UI.renderProperty('bugtracking.issue.status.label'|trans, entity.status) }}
                     {{ UI.renderProperty('bugtracking.issue.created.label'|trans, entity.created|date) }}
                     {{ UI.renderProperty('bugtracking.issue.updated.label'|trans, entity.updated|date) }}
+
+                    {% if entity.type and entity.type.name == constant('STORY_TYPE', entity.type) and entity.relatedIssues|length > 0 %}
+                        <hr/>
+                        <div class="control-group">
+                            {{ UI.renderProperty('bugtracking.issue.subtask.count'|trans, entity.relatedIssues|length) }}
+                            {% for childIssue in entity.relatedIssues %}
+                                {% set link %}
+                                    {{ UI.link({
+                                        'path': path('bugtracking_issue_view', {id: childIssue.id}),
+                                        'label': childIssue.description
+                                    }) }}
+                                {% endset %}
+                                {{ UI.renderHtmlProperty(childIssue.summary, link) }}
+                                <br/>
+                            {% endfor %}
+                        </div>
+                        <hr/>
+                    {% endif %}
+
+
                 </div>
             </div>
         </div>
