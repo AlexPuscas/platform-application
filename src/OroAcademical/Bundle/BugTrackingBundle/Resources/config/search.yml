@@ -1,0 +1,77 @@
+OroAcademical\Bundle\BugTrackingBundle\Entity\Issue:
+    alias:                  bugtracking_issue
+    title_fields:           [summary]
+    search_template:        OroAcademicalBugTrackingBundle:Search:result.html.twig
+    route:
+        name:               bugtracking_issue_view
+        parameters:
+            id:             id
+    fields:
+        -
+            name:           summary
+            target_type:    text
+            target_fields:  [summary]
+        -
+            name:           code
+            target_type:    text
+            target_fields:  [code]
+        -
+            name:           status
+            target_type:    integer
+            target_fields:  [status]
+        -
+            name:           type
+            relation_type:  many-to-one
+            relation_fields:
+                -
+                    name:           name
+                    target_type:    text
+                    target_fields:  [type]
+        -
+            name:           priority
+            relation_type:  many-to-one
+            relation_fields:
+                -
+                    name:           name
+                    target_type:    text
+                    target_fields:  [priority]
+        -
+            name:           resolution
+            relation_type:  many-to-one
+            relation_fields:
+                -
+                    name:           name
+                    target_type:    text
+                    target_fields:  [resolution]
+        -
+            name:           reporter
+            relation_type:  many-to-one
+            relation_fields:
+                -
+                    name:           username
+                    target_type:    text
+                    target_fields:  [reporter]
+                -
+                    name:           firstname
+                    target_type:    text
+                    target_fields:  [reporter]
+                -
+                    name:           lastname
+                    target_type:    text
+                    target_fields:  [reporter]
+        -
+            name:           assignee
+            relation_type:  many-to-one
+            relation_fields:
+                -
+                    name:           username
+                    target_type:    text
+                    target_fields:  [assignee]
+                -
+                    name:           firstname
+                    target_type:    text
+                    target_fields:  [assignee]
+                -
+                    name:           lastname
+                    target_type:    text
+                    target_fields:  [assignee]
