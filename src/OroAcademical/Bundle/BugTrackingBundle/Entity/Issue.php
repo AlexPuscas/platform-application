@@ -30,6 +30,13 @@ class Issue extends ExtendIssue
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=10
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -37,6 +44,14 @@ class Issue extends ExtendIssue
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=20
+     *          }
+     *      }
+     * )
      */
     protected $summary;
 
@@ -44,6 +59,14 @@ class Issue extends ExtendIssue
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=30
+     *          }
+     *      }
+     * )
      */
     protected $code;
 
@@ -51,6 +74,14 @@ class Issue extends ExtendIssue
      * @var string
      *
      * @ORM\Column(type="text", type="text", nullable=true)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=40
+     *          }
+     *      }
+     * )
      */
     protected $description;
 
@@ -59,6 +90,14 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="IssueType", inversedBy="issues")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=60
+     *          }
+     *      }
+     * )
      */
     protected $type;
 
@@ -67,6 +106,14 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Priority", inversedBy="issues")
      * @ORM\JoinColumn(name="priority_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=70
+     *          }
+     *      }
+     * )
      */
     protected $priority;
 
@@ -75,6 +122,14 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Resolution", inversedBy="issues")
      * @ORM\JoinColumn(name="resolution_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=80
+     *          }
+     *      }
+     * )
      */
     protected $resolution;
 
@@ -82,6 +137,14 @@ class Issue extends ExtendIssue
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true, options={"default":1})
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=50
+     *          }
+     *      }
+     * )
      */
     protected $status;
 
@@ -90,6 +153,14 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="reporter_user_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=90
+     *          }
+     *      }
+     * )
      */
     protected $reporter;
 
@@ -98,6 +169,14 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="assignee_user_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=100
+     *          }
+     *      }
+     * )
      */
     protected $assignee;
 
@@ -105,6 +184,14 @@ class Issue extends ExtendIssue
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Issue", mappedBy="parent", orphanRemoval=true)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=110
+     *          }
+     *      }
+     * )
      */
     protected $relatedIssues;
 
@@ -116,6 +203,14 @@ class Issue extends ExtendIssue
      *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="issue_collaborator_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=120
+     *          }
+     *      }
+     * )
      */
     protected $collaborators;
 
@@ -124,6 +219,14 @@ class Issue extends ExtendIssue
      *
      * @ORM\ManyToOne(targetEntity="Issue", inversedBy="relatedIssues")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=130
+     *          }
+     *      }
+     * )
      */
     protected $parent;
 
@@ -131,6 +234,14 @@ class Issue extends ExtendIssue
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=140
+     *          }
+     *      }
+     * )
      */
     protected $created;
 
@@ -138,6 +249,14 @@ class Issue extends ExtendIssue
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=150
+     *          }
+     *      }
+     * )
      */
     protected $updated;
 

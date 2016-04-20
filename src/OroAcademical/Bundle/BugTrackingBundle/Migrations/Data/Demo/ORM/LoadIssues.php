@@ -41,9 +41,11 @@ class LoadIssues extends AbstractDashboardFixture
         $users = $manager->getRepository('OroUserBundle:User')->findAll();
         $types = $manager->getRepository('OroAcademicalBugTrackingBundle:IssueType')->findAll();
         $priorities = $manager->getRepository('OroAcademicalBugTrackingBundle:Priority')->findAll();
+        $resolutions = $manager->getRepository('OroAcademicalBugTrackingBundle:Resolution')->findAll();
         $usersCount = count($users);
         $typesCount = count($types);
         $prioritiesCount = count($priorities);
+        $resolutionsCount = count($resolutions);
         $date = new \DateTime();
 
         foreach ($this->fixtureConditions as $index => $condition) {
@@ -54,6 +56,7 @@ class LoadIssues extends AbstractDashboardFixture
                 ->setDescription($condition)
                 ->setType($types[rand(0, $typesCount - 1)])
                 ->setPriority($priorities[rand(0, $prioritiesCount - 1)])
+                ->setResolution($resolutions[rand(0, $resolutionsCount - 1)])
                 ->setStatus(rand(0, 1))
                 ->setReporter($users[rand(0, $usersCount - 1)])
                 ->setAssignee($users[rand(0, $usersCount - 1)])

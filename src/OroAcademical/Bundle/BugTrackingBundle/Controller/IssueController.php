@@ -18,7 +18,9 @@ class IssueController extends Controller
      */
     public function indexAction()
     {
-        return [];
+        return [
+            'entity_class' => $this->container->getParameter('oroacademical_bugtracking.issue.entity.class')
+        ];
     }
 
     /**

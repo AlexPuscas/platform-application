@@ -2,24 +2,39 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_resolutions")
- * @Config
+ * @Config()
  */
 class Resolution
 {
+    const FIXED_RESOLUTION = 'Fixed';
+    const DUPLICATED_RESOLUTION = 'Duplicated';
+    const CANNOT_REPRODUCE_RESOLUTION = 'Cannot Reproduce';
+    const INVALID_RESOLUTION = 'Invalid';
+
     /**
      * @var int
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true,
+     *              "order"=10
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -27,6 +42,14 @@ class Resolution
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=20
+     *          }
+     *      }
+     * )
      */
     protected $name;
 
@@ -34,6 +57,14 @@ class Resolution
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="resolution")
+     *
+     * ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $issues;
 

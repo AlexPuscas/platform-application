@@ -4,6 +4,13 @@
 {% set pageTitle = 'Issue' %}
 
 {% block navButtons %}
+    {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+        entity_class: entity_class,
+        exportProcessor: 'oroacademical_bugtracking_issue_export',
+        importProcessor: 'oroacademical_bugtracking.add_or_replace',
+        dataGridName: gridName
+    } %}
+
     <div class="btn-group">
         {{ UI.addButton({
             'path' : path('bugtracking_issue_create'),

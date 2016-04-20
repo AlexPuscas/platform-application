@@ -3,6 +3,7 @@
 namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_issue_types")
- * @Config
+ * @Config()
  */
 class IssueType
 {
@@ -26,6 +27,15 @@ class IssueType
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true,
+     *              "order"=10
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -33,6 +43,14 @@ class IssueType
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=20
+     *          }
+     *      }
+     * )
      */
     protected $name;
 
@@ -40,6 +58,14 @@ class IssueType
      * @var string
      *
      * @ORM\Column(type="text")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $description;
 
@@ -47,6 +73,14 @@ class IssueType
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="type")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $issues;
 

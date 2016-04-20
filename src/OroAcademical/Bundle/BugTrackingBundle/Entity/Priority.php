@@ -2,15 +2,16 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="bugtracking_priorities")
- * @Config
+ * @Config()
  */
 class Priority
 {
@@ -25,6 +26,15 @@ class Priority
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true,
+     *              "order"=10
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -32,6 +42,14 @@ class Priority
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=20
+     *          }
+     *      }
+     * )
      */
     protected $name;
 
@@ -39,6 +57,14 @@ class Priority
      * @var string
      *
      * @ORM\Column(type="text")
+     *
+     * ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=40
+     *          }
+     *      }
+     * )
      */
     protected $description;
 
@@ -46,6 +72,14 @@ class Priority
      * @var int
      *
      * @ORM\Column(type="integer")
+     *
+     * ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=30
+     *          }
+     *      }
+     * )
      */
     protected $priority;
 
@@ -53,6 +87,14 @@ class Priority
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="priority")
+     *
+     * ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $issues;
 
