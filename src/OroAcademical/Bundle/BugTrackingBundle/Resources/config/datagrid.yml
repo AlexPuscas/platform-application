@@ -15,9 +15,9 @@ datagrid:
                 from:
                     - { table: OroAcademicalBugTrackingBundle:Issue, alias: issue }
                 where:
-                    or:
-                        - reporter.id = :logged_user
-                        - assignee.id = :logged_user
+                    and:
+                        - :logged_user MEMBER OF issue.collaborators
+
                 join:
                     left:
                         - { join: issue.type, alias: type }
@@ -77,16 +77,10 @@ datagrid:
                     - issue.description
                     - type.name as taskType
                     - priority.name AS taskPriority
-#                    - resolution.name
+                    - resolution.name AS taskResolution
                     - issue.status
-#                    - issue.tags
                     - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as taskReporter
                     - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as taskAssignee
-#                    - issue.relatedIssues
-#                    - issue.collaborators
-#                    - issue.parent
-#                    - issue.children
-#                    - issue.notes
                     - issue.created
                     - issue.updated
                 from:
@@ -95,6 +89,7 @@ datagrid:
                     left:
                         - { join: issue.type, alias: type }
                         - { join: issue.priority, alias: priority }
+                        - { join: issue.resolution, alias: resolution}
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.assignee, alias: assignee }
         columns:
@@ -108,6 +103,8 @@ datagrid:
                 label: bugtracking.issue.taskType.label
             taskPriority:
                 label: bugtracking.issue.taskPriority.label
+            taskResolution:
+                label: bugtracking.issue.taskResolution.label
             status:
                 label: bugtracking.issue.status.label
             taskReporter:
@@ -132,6 +129,8 @@ datagrid:
                     data_name: taskType
                 taskPriority:
                     data_name: priority.priority
+                taskResolution:
+                    data_name: taskResolution
                 status:
                     data_name: issue.status
                 taskReporter:
@@ -161,6 +160,9 @@ datagrid:
                 taskPriority:
                     type: string
                     data_name: taskPriority
+                taskResolution:
+                    type: string
+                    data_name: taskResolution
                 status:
                     type: string
                     data_name: issue.status

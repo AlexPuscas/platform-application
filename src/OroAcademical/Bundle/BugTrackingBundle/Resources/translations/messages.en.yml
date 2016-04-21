@@ -48,6 +48,7 @@ bugtracking:
         description.label: Description
         taskType.label: Task Type
         taskPriority.label: Task Priority
+        taskResolution.label: Task Resolution
         status.label: Status
         parent.label: Parent Task
         taskReporter.label: Task Reporter

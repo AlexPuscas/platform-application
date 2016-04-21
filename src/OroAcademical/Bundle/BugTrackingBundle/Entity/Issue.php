@@ -14,6 +14,7 @@ use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
 /**
  * @ORM\Entity(repositoryClass="OroAcademical\Bundle\BugTrackingBundle\Repository\IssueRepository")
  * @ORM\Table(name="bugtracking_issues")
+ * @ORM\HasLifecycleCallbacks()
  * @Config(
  *     defaultValues={
  *          "tag"={
@@ -582,11 +583,18 @@ class Issue extends ExtendIssue
     }
 
     /**
+     * Invoked before the entity is updated.
+     *
+     * @ORM\PreUpdate
+     *
      * @param \DateTime $updated
      * @return Issue
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated = null)
     {
+        if (!$updated instanceof \DateTime) {
+            $updated = new \DateTime();
+        }
         $this->updated = $updated;
 
         return $this;

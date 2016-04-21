@@ -11,6 +11,11 @@ definitions:
                 flush: true
                 parameters:
                     object: $target
+                    method: setUpdated
+            - @call_method:
+                flush: true
+                parameters:
+                    object: $target
                     method: addCollaborator
                     method_parameters: [$owner]
 triggers:

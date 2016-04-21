@@ -54,6 +54,15 @@ class IssueType extends AbstractType
                 ]
             )
             ->add(
+                'resolution',
+                'entity',
+                [
+                    'required' => true,
+                    'label' => 'bugtracking.issue.taskResolution.label',
+                    'class' => 'OroAcademicalBugTrackingBundle:Resolution',
+                ]
+            )
+            ->add(
                 'status',
                 'integer',
                 [
