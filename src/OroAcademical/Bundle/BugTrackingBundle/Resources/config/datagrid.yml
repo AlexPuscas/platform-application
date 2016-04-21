@@ -1,4 +1,61 @@
 datagrid:
+    dashboard-assigned-reported-issues-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.id
+                    - issue.summary
+                    - type.name as taskType
+                    - priority.name AS taskPriority
+                    - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as taskReporter
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as taskAssignee
+                    - issue.created
+                    - issue.updated
+                from:
+                    - { table: OroAcademicalBugTrackingBundle:Issue, alias: issue }
+                where:
+                    or:
+                        - reporter.id = :user
+                        - assignee.id = :user
+                join:
+                    left:
+                        - { join: issue.type, alias: type }
+                        - { join: issue.priority, alias: priority }
+                        - { join: issue.reporter, alias: reporter }
+                        - { join: issue.assignee, alias: assignee }
+            bind_parameters:
+                user: user
+        columns:
+            summary:
+                label: bugtracking.issue.summary.label
+            taskType:
+                label: bugtracking.issue.taskType.label
+            taskPriority:
+                label: bugtracking.issue.taskPriority.label
+            taskReporter:
+                label: bugtracking.issue.taskReporter.label
+            taskAssignee:
+                label: bugtracking.issue.taskAssignee.label
+            created:
+                label: bugtracking.issue.created.label
+                frontend_type: datetime
+            updated:
+                label: bugtracking.issue.updated.label
+                frontend_type: datetime
+        sorters:
+            columns:
+                updated:
+                    data_name: issue.updated
+            default:
+                updated: DESC
+        options:
+            show_step_in_grid: false
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [30]
+                    default_per_page: 30
     dashboard-recent-issues-grid:
         source:
             type: orm
@@ -61,7 +118,9 @@ datagrid:
             default:
                 updated: DESC
         options:
+            show_step_in_grid: false
             toolbarOptions:
+                hide: true
                 pageSize:
                     items: [10]
                     default_per_page: 10
