@@ -7,7 +7,7 @@
 
 {% block actions %}
     {% set actions = [{
-        'url': path('bugtracking_issue_index'),
+        'url': path('bugtracking_issue_index', { 'bugtracking-issues-grid': { '_filter': { 'collaborator': { 'value': app.user.id, 'type': '1' } } }}),
         'type': 'link',
         'label': 'bugtracking.issue.view_all'|trans
     }] %}

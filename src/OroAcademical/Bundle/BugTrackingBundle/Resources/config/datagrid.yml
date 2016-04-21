@@ -17,7 +17,6 @@ datagrid:
                 where:
                     and:
                         - :logged_user MEMBER OF issue.collaborators
-
                 join:
                     left:
                         - { join: issue.type, alias: type }
@@ -83,6 +82,7 @@ datagrid:
                     - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as taskAssignee
                     - issue.created
                     - issue.updated
+                    - collaborators.username
                 from:
                     - { table: OroAcademicalBugTrackingBundle:Issue, alias: issue }
                 join:
@@ -92,6 +92,7 @@ datagrid:
                         - { join: issue.resolution, alias: resolution}
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.assignee, alias: assignee }
+                        - { join: issue.collaborators, alias: collaborators}
         columns:
             summary:
                 label: bugtracking.issue.summary.label
@@ -117,6 +118,8 @@ datagrid:
             updated:
                 label: bugtracking.issue.updated.label
                 frontend_type: datetime
+            collaborators:
+                label: bugtracking.issue.collaborators.label
         sorters:
             columns:
                 summary:
@@ -178,6 +181,11 @@ datagrid:
                 updated:
                     type: datetime
                     data_name: issue.updated
+                collaborator:
+                    type: choice-tree
+                    data_name: collaborators
+                    options:
+                        data: @oro_user.provider.filter.user_choice_tree->getList
         properties:
             id: ~
             view_link:

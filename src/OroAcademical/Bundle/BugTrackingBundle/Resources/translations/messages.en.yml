@@ -55,6 +55,7 @@ bugtracking:
         taskAssignee.label: Task Assignee
         created.label: Created Date
         updated.label: Updated Date
+        collaborators.label: Collaborators
         controller.issue_saved_message: Issue saved!
         add_entity: Add Issue
         view_all: View All Issues
