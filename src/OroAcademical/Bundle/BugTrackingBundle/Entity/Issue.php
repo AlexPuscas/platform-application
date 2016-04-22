@@ -483,12 +483,12 @@ class Issue extends ExtendIssue
     }
 
     /**
-     * @param Issue $relatedIssue
+     * @param ArrayCollection $relatedIssue
      * @return Issue
      */
-    public function addRelatedIssue(Issue $relatedIssue)
+    public function setRelatedIssues(ArrayCollection $relatedIssue)
     {
-        $this->relatedIssues->add($relatedIssue);
+        $this->relatedIssues = $relatedIssue;
 
         return $this;
     }
@@ -497,7 +497,20 @@ class Issue extends ExtendIssue
      * @param Issue $relatedIssue
      * @return Issue
      */
-    public function removeRelatedIssue(Issue $relatedIssue)
+    public function addRelatedIssue(Issue $relatedIssue = null)
+    {
+        if ($relatedIssue && !$this->relatedIssues->contains($relatedIssue)) {
+            $this->relatedIssues->add($relatedIssue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Issue $relatedIssue
+     * @return Issue
+     */
+    public function removeRelatedIssue(Issue $relatedIssue = null)
     {
         $this->relatedIssues->removeElement($relatedIssue);
 
@@ -510,6 +523,17 @@ class Issue extends ExtendIssue
     public function getCollaborators()
     {
         return $this->collaborators;
+    }
+
+    /**
+     * @param ArrayCollection $collaborators
+     * @return Issue
+     */
+    public function setCollaborators(ArrayCollection $collaborators = null)
+    {
+        $this->collaborators = $collaborators;
+
+        return $this;
     }
 
     /**
@@ -529,7 +553,7 @@ class Issue extends ExtendIssue
      * @param User $collaborator
      * @return Issue
      */
-    public function removeCollaborator(User $collaborator)
+    public function removeCollaborator(User $collaborator = null)
     {
         $this->collaborators->removeElement($collaborator);
 

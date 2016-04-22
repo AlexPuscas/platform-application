@@ -144,13 +144,12 @@ class IssueType
     }
 
     /**
-     * @param Issue $issue
-     *
-     * @return IssueType
+     * @param Collection $issues
+     * @return Collection
      */
-    public function addIssues(Issue $issue)
+    public function setIssues(Collection $issues)
     {
-        $this->issues->add($issue);
+        $this->issues = $issues;
 
         return $this;
     }
@@ -160,7 +159,21 @@ class IssueType
      *
      * @return IssueType
      */
-    public function removeIssues(Issue $issue)
+    public function addIssues(Issue $issue = null)
+    {
+        if ($issue && !$this->issues->contains($issue)) {
+            $this->issues->add($issue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Issue $issue
+     *
+     * @return IssueType
+     */
+    public function removeIssues(Issue $issue = null)
     {
         $this->issues->removeElement($issue);
 

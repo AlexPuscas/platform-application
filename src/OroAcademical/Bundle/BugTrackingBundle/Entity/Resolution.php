@@ -2,6 +2,7 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
@@ -68,6 +69,11 @@ class Resolution
      */
     protected $issues;
 
+    public function __construct()
+    {
+        $this->issues = new ArrayCollection();
+    }
+
     /**
      * @return int
      */
@@ -104,12 +110,12 @@ class Resolution
     }
 
     /**
-     * @param Issue $issue
-     * @return Resolution
+     * @param Collection $issues
+     * @return Collection
      */
-    public function addIssues(Issue $issue)
+    public function setIssues(Collection $issues)
     {
-        $this->issues->add($issue);
+        $this->issues = $issues;
 
         return $this;
     }
@@ -118,7 +124,20 @@ class Resolution
      * @param Issue $issue
      * @return Resolution
      */
-    public function removeIssues(Issue $issue)
+    public function addIssues(Issue $issue = null)
+    {
+        if ($issue && !$this->issues->contains($issue)) {
+            $this->issues->add($issue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Issue $issue
+     * @return Resolution
+     */
+    public function removeIssues(Issue $issue = null)
     {
         $this->issues->removeElement($issue);
 
