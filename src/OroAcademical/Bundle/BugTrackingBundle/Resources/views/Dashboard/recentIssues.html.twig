@@ -2,7 +2,7 @@
 {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 
 {% block content %}
-    {{ dataGrid.renderGrid('dashboard-recent-issues-grid', {'user' : app.user.id}) }}
+    {{ dataGrid.renderGrid('dashboard-recent-issues-grid', {'loggedUser' : app.user.id}) }}
 {% endblock %}
 
 {% block actions %}
