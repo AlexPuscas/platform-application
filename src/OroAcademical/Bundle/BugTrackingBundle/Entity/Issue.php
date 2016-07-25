@@ -291,6 +291,7 @@ class Issue extends ExtendIssue
         $this->relatedIssues = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
         $this->created = $this->updated = new \DateTime();
+        $this->status = 0;
     }
 
     /**
@@ -588,6 +589,14 @@ class Issue extends ExtendIssue
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->created;
+    }
+
+    /**
      * @param \DateTime $created
      * @return Issue
      */
@@ -602,6 +611,14 @@ class Issue extends ExtendIssue
      * @return \DateTime
      */
     public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
     {
         return $this->updated;
     }

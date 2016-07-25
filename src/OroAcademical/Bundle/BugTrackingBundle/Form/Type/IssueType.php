@@ -2,9 +2,14 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
+
+use OroAcademical\Bundle\BugTrackingBundle\Entity\Issue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType as Type;
 
 class IssueType extends AbstractType
 {
@@ -23,7 +28,7 @@ class IssueType extends AbstractType
                 'code',
                 'text',
                 [
-                    'required' => false,
+                    'required' => true,
                     'label' => 'bugtracking.issue.code.label',
                 ]
             )
@@ -42,6 +47,13 @@ class IssueType extends AbstractType
                     'required' => true,
                     'label' => 'bugtracking.issue.taskType.label',
                     'class'  => 'OroAcademicalBugTrackingBundle:IssueType',
+                    'query_builder' => function (EntityRepository $entityRepository) {
+                        $queryBuilder = $entityRepository->createQueryBuilder('t');
+
+                        return $queryBuilder
+                            ->where($queryBuilder->expr()->notLike('t.name', ':type'))
+                            ->setParameter('type', '%' . Type::SUB_TASK_TYPE . '%');
+                    },
                 ]
             )
             ->add(
@@ -66,17 +78,8 @@ class IssueType extends AbstractType
                 'status',
                 'integer',
                 [
-                    'required' => true,
-                    'label' => 'bugtracking.issue.status.label',
-                ]
-            )
-            ->add(
-                'parent',
-                'entity',
-                [
                     'required' => false,
-                    'label' => 'bugtracking.issue.parent.label',
-                    'class'  => 'OroAcademicalBugTrackingBundle:Issue',
+                    'label' => 'bugtracking.issue.status.label',
                 ]
             )
             ->add(
@@ -85,7 +88,7 @@ class IssueType extends AbstractType
                 [
                     'required' => true,
                     'label' => 'bugtracking.issue.taskReporter.label',
-                    'class' => 'OroUserBundle:User',
+                    'class' => 'OroUserBundle:User'
                 ]
             )
             ->add(
@@ -106,7 +109,7 @@ class IssueType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'OroAcademical\Bundle\BugTrackingBundle\Entity\Issue',
+                'data_class' => Issue::class,
                 'cascade_validation' => true,
             ]
         );

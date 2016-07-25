@@ -1,6 +1,6 @@
 <?php
 
-namespace OroAcademical\Bundle\BugTrackingBundle\Tests\Form\Type;
+namespace OroAcademical\Bundle\BugTrackingBundle\Tests\Unit\Form\Type;
 
 use OroAcademical\Bundle\BugTrackingBundle\Form\Type\IssueType;
 
@@ -61,7 +61,6 @@ class IssueTypeTest extends \PHPUnit_Framework_TestCase
                     'priority' => 'entity',
                     'resolution' => 'entity',
                     'status' => 'integer',
-                    'parent' => 'entity',
                     'reporter' => 'entity',
                     'assignee' => 'entity',
                 ]

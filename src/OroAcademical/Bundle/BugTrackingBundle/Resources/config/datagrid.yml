@@ -125,6 +125,7 @@ datagrid:
                     items: [10]
                     default_per_page: 10
     bugtracking-issues-grid:
+        extended_entity_name: OroAcademical\Bundle\BugTrackingBundle\Entity\Issue
         source:
             type: orm
             query:
@@ -167,6 +168,9 @@ datagrid:
                 label: bugtracking.issue.taskResolution.label
             status:
                 label: bugtracking.issue.status.label
+                type:          twig
+                frontend_type: html
+                template:      OroAcademicalBugTrackingBundle:Datagrid:status.html.twig
             taskReporter:
                 label: bugtracking.issue.taskReporter.label
             taskAssignee:

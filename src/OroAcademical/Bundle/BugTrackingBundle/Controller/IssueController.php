@@ -2,19 +2,25 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Controller;
 
-use Doctrine\Common\Persistence\ObjectRepository;
-use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use OroAcademical\Bundle\BugTrackingBundle\Entity\Issue;
 use Symfony\Component\HttpFoundation\Request;
+
+use Doctrine\Common\Persistence\ObjectRepository;
+
+use Oro\Bundle\NavigationBundle\Annotation\TitleTemplate;
+
+use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType;
+use OroAcademical\Bundle\BugTrackingBundle\Entity\Issue;
 
 class IssueController extends Controller
 {
     /**
      * @Route("/", name="bugtracking_issue_index")
      * @Template()
+     * @TitleTemplate("View All")
      */
     public function indexAction()
     {
@@ -26,6 +32,7 @@ class IssueController extends Controller
     /**
      * @Route("/view/{id}", name="bugtracking_issue_view", requirements={"id"="\d+"})
      * @Template()
+     * @TitleTemplate("View - Issues")
      */
     public function viewAction(Issue $issue)
     {
@@ -42,6 +49,7 @@ class IssueController extends Controller
     /**
      * @Route("/create/{id}", name="bugtracking_issue_create", requirements={"id"="\d+"}, defaults={"id" = null})
      * @Template("OroAcademicalBugTrackingBundle:Issue:update.html.twig")
+     * @TitleTemplate("Create - Issues")
      */
     public function createAction(Issue $parent = null, Request $request)
     {
@@ -59,6 +67,7 @@ class IssueController extends Controller
     /**
      * @Route("/update/{id}", name="bugtracking_issue_update", requirements={"id"="\d+"})
      * @Template()
+     * @TitleTemplate("Edit - Issues")
      */
     public function updateAction(Issue $issue, Request $request)
     {

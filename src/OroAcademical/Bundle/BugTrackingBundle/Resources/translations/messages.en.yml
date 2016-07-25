@@ -11,37 +11,48 @@ oroacademical.bugtracking:
         priority.label: Issue Priority
         status.label: Status
         parent.label: Parent Task
+        related_issues.label: Related Issues
         reporter.label: Task Reporter
         assignee.label: Task Assignee
         created.label: Created Date
         updated.label: Updated Date
         resolution.label: Issue Resolution
-    resolution:
-        entity_label: Resolution
-        entity_plural_label: Resolutions
     priority:
         entity_label: Priority
         entity_plural_label: Priorities
         id.label: Id
         name.label: Name
+        description.label: Description
+        priority.label: Priority
+        issues.label: Issues
     issuetype:
         entity_label: Issue Type
         entity_plural_label: Issue Types
         id.label: Id
         name.label: Name
+        description.label: Description
+        issues.label: Issues
     resolution:
-        entity_label: Resolution Type
-        entity_plural_label: Resolution Types
+        issues.label: Issues
+        entity_label: Resolution
+        entity_plural_label: Resolutions
         id.label: Id
         name.label: Name
 
 bugtracking:
+    status:
+        0: Undefined
+        1: Open
+        2: In Progress
+        3: Closed
+        4: Resolved
+        5: Reopened
     issue:
         entity:
             singular_label: Issue
             plural_label: Issues
             sub_task: SubTask
-        subtask.count: Number of SubTasks
+        subtask.label: SubTasks
         collaborators.label: Collaborators
         summary.label: Summary
         code.label: Code

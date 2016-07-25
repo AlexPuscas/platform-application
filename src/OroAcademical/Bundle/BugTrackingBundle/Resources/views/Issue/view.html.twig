@@ -1,4 +1,5 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
 {% block navButtons %}
     {% if resource_granted('EDIT', entity) %}
@@ -23,6 +24,16 @@
     }) }}
     {% endif %}
 {% endblock navButtons %}
+
+{% block breadcrumb %}
+    {% if breadcrumbs is not defined %}
+        {% set breadcrumbs = [{'label': 'bugtracking.issue.entity.singular_label'|trans }] %}
+        {% if entity.code is not empty %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': entity.code}]) %}
+        {% endif %}
+    {% endif %}
+    {% include 'OroNavigationBundle:Menu:breadcrumbs.html.twig' %}
+{% endblock breadcrumb %}
 
 {% block pageHeader %}
     {% set breadcrumbs = {
@@ -77,8 +88,15 @@
                         {%- endif -%}
                     {%- endset -%}
                     {{ UI.renderHtmlProperty('bugtracking.issue.taskReporter.label'|trans, reporterData) }}
+
+                    {{ entityConfig.renderDynamicFields(entity) }}
+
+                    {{ UI.renderProperty('bugtracking.issue.status.label'|trans, entity.status is null ? null : ('bugtracking.status.' ~ entity.status )|trans) }}
+                    {{ UI.renderProperty('bugtracking.issue.created.label'|trans, entity.created|date) }}
+                    {{ UI.renderProperty('bugtracking.issue.updated.label'|trans, entity.updated|date) }}
+
+                    <hr/>
                     {% if entity.collaborators|length > 0 %}
-                        {{ UI.renderProperty('bugtracking.issue.subtask.count'|trans, entity.collaborators|length) }}
                         {% for collaborator in entity.collaborators %}
                             {%- set collaboratorData -%}
                                 {%- if collaborator -%}
@@ -91,26 +109,29 @@
                                     {% endif %}
                                 {%- endif -%}
                             {%- endset -%}
-                            {{ UI.renderHtmlProperty('bugtracking.issue.collaborators.label'|trans, collaboratorData ) }}
+                            {% if loop.first %}
+                                {{ UI.renderHtmlProperty('bugtracking.issue.collaborators.label'|trans, collaboratorData) }}
+                            {% else %}
+                                {{ UI.renderHtmlProperty('', collaboratorData ) }}
+                            {% endif %}
                         {% endfor %}
+                        <hr/>
                     {% endif %}
-                    {{ UI.renderProperty('bugtracking.issue.status.label'|trans, entity.status) }}
-                    {{ UI.renderProperty('bugtracking.issue.created.label'|trans, entity.created|date) }}
-                    {{ UI.renderProperty('bugtracking.issue.updated.label'|trans, entity.updated|date) }}
 
                     {% if entity.type and entity.type.name == constant('STORY_TYPE', entity.type) and entity.relatedIssues|length > 0 %}
-                        <hr/>
                         <div class="control-group">
-                            {{ UI.renderProperty('bugtracking.issue.subtask.count'|trans, entity.relatedIssues|length) }}
                             {% for childIssue in entity.relatedIssues %}
-                                {% set link %}
+                                {% set subTask %}
                                     {{ UI.link({
                                         'path': path('bugtracking_issue_view', {id: childIssue.id}),
-                                        'label': childIssue.description
+                                        'label': childIssue.summary
                                     }) }}
                                 {% endset %}
-                                {{ UI.renderHtmlProperty(childIssue.summary, link) }}
-                                <br/>
+                                {% if loop.first %}
+                                    {{ UI.renderHtmlProperty('bugtracking.issue.subtask.label'|trans, subTask) }}
+                                {% else %}
+                                    {{ UI.renderHtmlProperty('', subTask ) }}
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <hr/>

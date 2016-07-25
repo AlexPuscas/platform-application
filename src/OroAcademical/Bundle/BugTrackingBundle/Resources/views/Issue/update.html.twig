@@ -3,6 +3,8 @@
 
 {% if form.vars.value and form.vars.value.id %}
     {% set formAction = path('bugtracking_issue_update', { 'id': form.vars.value.id }) %}
+{% elseif form.vars.value.parent is not null %}
+    {% set formAction = path('bugtracking_issue_create', { 'id': form.vars.value.parent.id}) %}
 {% else %}
     {% set formAction = path('bugtracking_issue_create') %}
 {% endif %}
@@ -26,6 +28,16 @@
     {{ UI.dropdownSaveButton({ 'html': html }) }}
 {% endblock navButtons %}
 
+{% block breadcrumb %}
+    {% if breadcrumbs is not defined %}
+        {% set breadcrumbs = [{'label': 'bugtracking.issue.entity.singular_label'|trans }] %}
+        {% if entity.code is not empty %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': entity.code}]) %}
+        {% endif %}
+    {% endif %}
+    {% include 'OroNavigationBundle:Menu:breadcrumbs.html.twig' %}
+{% endblock breadcrumb %}
+
 {% block pageHeader %}
     {% if form.vars.value.id %}
         {% set breadcrumbs = {
@@ -43,24 +55,14 @@
 
 {% block content_data %}
     {% set id = 'bugtracking_issue_update' %}
+    {% set formData = form_row(form) %}
 
     {% set dataBlocks = [{
         'title': 'General'|trans,
         'class': 'active',
         'subblocks': [{
             'title': '',
-            'data': [
-                form_row(form.summary),
-                form_row(form.code),
-                form_row(form.description),
-                form_row(form.type),
-                form_row(form.priority),
-                form_row(form.resolution),
-                form_row(form.status),
-                form_row(form.parent),
-                form_row(form.reporter),
-                form_row(form.assignee),
-            ]
+            'data': [formData]
         }]
     }]
     %}
@@ -70,3 +72,27 @@
     } %}
     {{ parent() }}
 {% endblock content_data %}
+
+{% block content %}
+    {% if isWidgetContext %}
+        <script type="text/javascript">
+            require(['oroui/js/widget-manager', 'oroui/js/messenger'],
+                    function(widgetManager, messenger) {
+                        widgetManager.getWidgetInstance(
+                            {{ app.request.get('_wid')|json_encode|raw }},
+                            function(widget) {
+                                widget.on('formSave', function() {
+                                    if (widget.disposing) {
+                                        return false;
+                                    }
+                                    var message = '{{ 'bugtracking.issue.controller.issue_saved_message'|trans }}';
+                                    messenger.notificationFlashMessage('success', message);
+                                    widget.remove();
+                                });
+                            }
+                        );
+                    });
+        </script>
+    {% endif %}
+    {{ parent() }}
+{% endblock content %}
