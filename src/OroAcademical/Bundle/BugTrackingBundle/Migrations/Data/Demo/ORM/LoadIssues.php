@@ -8,6 +8,7 @@ use OroAcademical\Bundle\BugTrackingBundle\Entity\Issue;
 
 class LoadIssues extends AbstractDashboardFixture
 {
+    /** @var array */
     protected $fixtureConditions = array(
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit',
         'Aenean commodo ligula eget dolor',
@@ -30,7 +31,11 @@ class LoadIssues extends AbstractDashboardFixture
         'Curabitur ligula sapien',
         'Donec posuere vulputate'
     );
+
+    /** @var string */
     protected $summary = 'Issue';
+
+    /** @var string */
     protected $code = 'I';
 
     /**

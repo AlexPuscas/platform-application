@@ -3,9 +3,10 @@
 namespace OroAcademical\Bundle\BugTrackingBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Oro\Bundle\SoapBundle\Form\EventListener\PatchSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Oro\Bundle\SoapBundle\Form\EventListener\PatchSubscriber;
 
 class IssueApiType extends AbstractType
 {

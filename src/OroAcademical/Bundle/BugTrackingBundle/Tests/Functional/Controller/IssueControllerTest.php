@@ -2,8 +2,9 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Tests\Functional\Controller;
 
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**
  * @dbIsolation
@@ -45,6 +46,7 @@ class IssueControllerTest extends WebTestCase
 
     /**
      * @depends testCreate
+     * @return mixed
      */
     public function testUpdate()
     {
@@ -77,6 +79,7 @@ class IssueControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
+     * @param $id
      */
     public function testView($id)
     {

@@ -2,6 +2,8 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Controller\Dashboard;
 
+use Doctrine\Common\Persistence\ObjectRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,6 +19,9 @@ class DashboardController extends Controller
      * )
      *
      * @Template("OroAcademicalBugTrackingBundle:Dashboard:issuesByStatus.html.twig")
+     *
+     * @param string $widget
+     * @return array
      */
     public function issuesByStatusAction($widget)
     {

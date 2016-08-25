@@ -2,15 +2,15 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="OroAcademical\Bundle\BugTrackingBundle\Entity\Repository\IssueTypeRepository")
  * @ORM\Table(name="bugtracking_issue_types")
  * @Config()
  */
@@ -180,9 +180,11 @@ class IssueType
         return $this;
     }
 
-    function __toString()
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
     {
         return $this->getName();
     }
 }
-

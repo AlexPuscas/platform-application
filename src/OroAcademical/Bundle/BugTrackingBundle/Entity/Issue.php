@@ -9,10 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\UserBundle\Entity\User;
+
 use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
 
 /**
- * @ORM\Entity(repositoryClass="OroAcademical\Bundle\BugTrackingBundle\Repository\IssueRepository")
+ * @ORM\Entity(repositoryClass="OroAcademical\Bundle\BugTrackingBundle\Entity\Repository\IssueRepository")
  * @ORM\Table(name="bugtracking_issues")
  * @ORM\HasLifecycleCallbacks()
  * @Config(
@@ -20,6 +21,9 @@ use OroAcademical\Bundle\BugTrackingBundle\Model\ExtendIssue;
  *          "tag"={
  *              "enabled"=true
  *          },
+ *          "workflow"={
+ *              "active_workflows"={"b2b_flow_checkout"}
+ *          }
  *     }
  * )
  */
@@ -184,7 +188,11 @@ class Issue extends ExtendIssue
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Issue", mappedBy="parent", orphanRemoval=true)
+     * @ORM\OneToMany(
+     *     targetEntity="OroAcademical\Bundle\BugTrackingBundle\Entity\Issue",
+     *     mappedBy="parent",
+     *     orphanRemoval=true
+     * )
      *
      * @ConfigField(
      *      defaultValues={
@@ -202,7 +210,10 @@ class Issue extends ExtendIssue
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinTable(name="bugtr_issues_to_oro_user_user",
      *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="issue_collaborator_id", referencedColumnName="id", onDelete="CASCADE")}
+     *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="issue_collaborator_id", referencedColumnName="id", onDelete="CASCADE")
+     *      }
      * )
      *
      * @ConfigField(
@@ -261,27 +272,12 @@ class Issue extends ExtendIssue
      */
     protected $updated;
 
-    public static function getStatusName($status)
+    /**
+     * @return array
+     */
+    public static function getStatusses()
     {
-        switch ($status) {
-            case 1:
-                return 'Open';
-                break;
-            case 2 :
-                return 'In Progress';
-                break;
-            case 3:
-                return 'Closed';
-                break;
-            case 4:
-                return 'Resolved';
-                break;
-            case 5:
-                return 'Reopened';
-                break;
-            default:
-                return 'Undefined';
-        }
+        return ['Undefined', 'Open', 'In Progress', 'Closed', 'Resolved', 'Reopened'];
     }
 
     public function __construct()
@@ -641,7 +637,10 @@ class Issue extends ExtendIssue
         return $this;
     }
 
-    function __toString()
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
     {
         return $this->getSummary();
     }

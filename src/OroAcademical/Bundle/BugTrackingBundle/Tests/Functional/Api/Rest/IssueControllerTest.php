@@ -2,11 +2,14 @@
 
 namespace OroAcademical\Bundle\BugTrackingBundle\Tests\Functional\Api\Rest;
 
+use OroAcademical\Bundle\BugTrackingBundle\Migrations\Data\ORM\LoadIssueTypes;
+use Symfony\Component\HttpFoundation\Response;
+
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
 use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType;
 use OroAcademical\Bundle\BugTrackingBundle\Entity\Priority;
 use OroAcademical\Bundle\BugTrackingBundle\Entity\Resolution;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
 * @dbIsolation
@@ -21,6 +24,11 @@ class IssueControllerTest extends WebTestCase
         'code' => 'TI',
         'description' => 'Test Issue Description',
         'status' => 1,
+        'type' => 1,
+        'priority' => 1,
+        'resolution' => 1,
+        'reporter' => 1,
+        'assignee' => 1,
     ];
 
     protected function setUp()
@@ -33,7 +41,7 @@ class IssueControllerTest extends WebTestCase
      */
     public function testPost()
     {
-        $request = ['bugtracking_issue_form' => $this->issueData];
+        $request = ['bugtracking_issue_api_form' => $this->issueData];
 
         $this->client->request(
             'POST',
@@ -130,6 +138,7 @@ class IssueControllerTest extends WebTestCase
     /**
      * @param array $originalIssue
      * @depends testGet
+     * @return int
      */
     public function testPut(array $originalIssue)
     {
@@ -140,12 +149,17 @@ class IssueControllerTest extends WebTestCase
             'code' => 'UTI',
             'description' => 'Updated Description',
             'status' => 2,
+            'type' => 1,
+            'priority' => 1,
+            'resolution' => 1,
+            'reporter' => 1,
+            'assignee' => 1,
         ];
 
         $this->client->request(
             'PUT',
             $this->getUrl('bugtracking_issue_api_put_issue', ['id' => $id]),
-            ['bugtracking_issue_form' => $putData],
+            ['bugtracking_issue_api_form' => $putData],
             [],
             $this->generateWsseAuthHeader()
         );
@@ -160,7 +174,7 @@ class IssueControllerTest extends WebTestCase
 
         $updatedIssue = $this->getJsonResponseContent($this->client->getResponse(), Response::HTTP_OK);
 
-        $expectedIssue = array_merge($originalIssue, $putData);
+        $expectedIssue = array_merge($originalIssue, array_slice($putData, 0, 4));
         unset($expectedIssue['updated']);
 
         $this->assertArrayIntersectEquals($expectedIssue, $updatedIssue);

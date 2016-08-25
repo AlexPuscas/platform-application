@@ -8,6 +8,5 @@ workflows:
     issue_flow:
         label: "Issue Flow"
         entity: OroAcademical\Bundle\BugTrackingBundle\Entity\Issue
-        enabled: true
         entity_attribute: issue
         start_step: open

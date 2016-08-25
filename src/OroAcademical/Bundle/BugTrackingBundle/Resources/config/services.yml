@@ -38,12 +38,20 @@ services:
         factory_service: form.factory
         arguments: [bugtracking_issue_form, bugtracking_issue]
     oroacademical_bugtracking.form.issue.api:
-            class: Symfony\Component\Form\Form
-            factory_method: createNamed
-            factory_service: form.factory
-            arguments: [bugtracking_issue_form, bugtracking_issue_api]
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: [bugtracking_issue_api_form, bugtracking_issue_api]
 
     # Form Handler
+    oroacademical_bugtracking.form.handler.issue:
+        class: %oroacademical_bugtracking.form.handler.issue.class%
+        scope: request
+        arguments:
+            - @oroacademical_bugtracking.form.issue
+            - @request
+            - @doctrine.orm.entity_manager
+
     oroacademical_bugtracking.form.handler.issue.api:
         class: %oroacademical_bugtracking.form.handler.issue.class%
         scope: request

@@ -3,11 +3,11 @@
 namespace OroAcademical\Bundle\BugTrackingBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\Entity()
@@ -144,7 +144,10 @@ class Resolution
         return $this;
     }
 
-    function __toString()
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
     {
         return $this->getName();
     }

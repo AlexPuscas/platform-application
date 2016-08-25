@@ -3,11 +3,14 @@
 namespace OroAcademical\Bundle\BugTrackingBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Oro\Bundle\DashboardBundle\Migrations\Data\ORM\AbstractDashboardFixture;
+
 use OroAcademical\Bundle\BugTrackingBundle\Entity\Priority;
 
 class LoadPriorityTypes extends AbstractDashboardFixture
 {
+    /** @var array */
     protected $priorityNames = [
         Priority::BLOCKER_PRIORITY,
         Priority::CRITICAL_PRIORITY,

@@ -33,6 +33,7 @@ class IssueTypeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider testBuildFormDataProvider
+     * @param array $expectedFields
      */
     public function testBuildForm(array $expectedFields)
     {
@@ -49,6 +50,9 @@ class IssueTypeTest extends \PHPUnit_Framework_TestCase
         $this->issueType->buildForm($builder, []);
     }
 
+    /**
+     * @return array
+     */
     public function testBuildFormDataProvider()
     {
         return [
@@ -60,7 +64,7 @@ class IssueTypeTest extends \PHPUnit_Framework_TestCase
                     'type' => 'entity',
                     'priority' => 'entity',
                     'resolution' => 'entity',
-                    'status' => 'integer',
+                    'status' => 'choice',
                     'reporter' => 'entity',
                     'assignee' => 'entity',
                 ]

@@ -18,6 +18,8 @@ class PriorityTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider settersAndGettersDataProvider
+     * @param string $property
+     * @param string $value
      */
     public function testSettersAndGetters($property, $value)
     {
@@ -30,6 +32,8 @@ class PriorityTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider adderRemoverDataProvider
+     * @param string $property
+     * @param string $value
      */
     public function testAdder($property, $value)
     {
@@ -46,6 +50,8 @@ class PriorityTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider adderRemoverDataProvider
+     * @param string $property
+     * @param string $value
      */
     public function testRemover($property, $value)
     {
@@ -68,6 +74,9 @@ class PriorityTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, (string)$this->target);
     }
 
+    /**
+     * @return array
+     */
     public function adderRemoverDataProvider()
     {
         $issue = $this->getMock('OroAcademical\Bundle\BugTrackingBundle\Entity\Issue');
@@ -77,6 +86,9 @@ class PriorityTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     public function settersAndGettersDataProvider()
     {
         $issues = $this->getMock('Doctrine\Common\Collections\ArrayCollection');

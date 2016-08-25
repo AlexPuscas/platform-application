@@ -3,11 +3,14 @@
 namespace OroAcademical\Bundle\BugTrackingBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Oro\Bundle\DashboardBundle\Migrations\Data\ORM\AbstractDashboardFixture;
-Use OroAcademical\Bundle\BugTrackingBundle\Entity\Resolution;
+
+use OroAcademical\Bundle\BugTrackingBundle\Entity\Resolution;
 
 class LoadResolutions extends AbstractDashboardFixture
 {
+    /** @var array */
     protected $resolutionNames = [
         Resolution::CANNOT_REPRODUCE_RESOLUTION,
         Resolution::DUPLICATED_RESOLUTION,

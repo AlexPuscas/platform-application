@@ -1,11 +1,14 @@
 <?php
 
-namespace OroAcademical\Bundle\BugTrackingBundle\Repository;
+namespace OroAcademical\Bundle\BugTrackingBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
 class IssueRepository extends EntityRepository
 {
+    /**
+     * @return array
+     */
     public function getIssuesByStatus()
     {
         return $this

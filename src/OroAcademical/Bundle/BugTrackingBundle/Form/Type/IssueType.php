@@ -4,15 +4,19 @@ namespace OroAcademical\Bundle\BugTrackingBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
 
-use OroAcademical\Bundle\BugTrackingBundle\Entity\Issue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use OroAcademical\Bundle\BugTrackingBundle\Entity\Issue;
+use OroAcademical\Bundle\BugTrackingBundle\Entity\Repository\IssueTypeRepository;
 use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType as Type;
 
 class IssueType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -47,12 +51,8 @@ class IssueType extends AbstractType
                     'required' => true,
                     'label' => 'bugtracking.issue.taskType.label',
                     'class'  => 'OroAcademicalBugTrackingBundle:IssueType',
-                    'query_builder' => function (EntityRepository $entityRepository) {
-                        $queryBuilder = $entityRepository->createQueryBuilder('t');
-
-                        return $queryBuilder
-                            ->where($queryBuilder->expr()->notLike('t.name', ':type'))
-                            ->setParameter('type', '%' . Type::SUB_TASK_TYPE . '%');
+                    'query_builder' => function (IssueTypeRepository $entityRepository) {
+                        return $entityRepository->getWithoutTypeQueryBuilder(Type::SUB_TASK_TYPE);
                     },
                 ]
             )
@@ -76,8 +76,9 @@ class IssueType extends AbstractType
             )
             ->add(
                 'status',
-                'integer',
+                'choice',
                 [
+                    'choices' => Issue::getStatusses(),
                     'required' => false,
                     'label' => 'bugtracking.issue.status.label',
                 ]
@@ -111,6 +112,7 @@ class IssueType extends AbstractType
             [
                 'data_class' => Issue::class,
                 'cascade_validation' => true,
+                'label' => false,
             ]
         );
     }

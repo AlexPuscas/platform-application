@@ -21,6 +21,8 @@ class IssueController extends Controller
      * @Route("/", name="bugtracking_issue_index")
      * @Template()
      * @TitleTemplate("View All")
+     *
+     * @return array
      */
     public function indexAction()
     {
@@ -33,6 +35,9 @@ class IssueController extends Controller
      * @Route("/view/{id}", name="bugtracking_issue_view", requirements={"id"="\d+"})
      * @Template()
      * @TitleTemplate("View - Issues")
+     *
+     * @param Issue $issue
+     * @return array
      */
     public function viewAction(Issue $issue)
     {
@@ -50,8 +55,12 @@ class IssueController extends Controller
      * @Route("/create/{id}", name="bugtracking_issue_create", requirements={"id"="\d+"}, defaults={"id" = null})
      * @Template("OroAcademicalBugTrackingBundle:Issue:update.html.twig")
      * @TitleTemplate("Create - Issues")
+     *
+     * @param Request $request
+     * @param Issue|null $parent
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function createAction(Issue $parent = null, Request $request)
+    public function createAction(Request $request, Issue $parent = null)
     {
         $issue = new Issue();
         if ($parent && $parent->getType()->getName() == IssueType::STORY_TYPE) {
@@ -68,17 +77,25 @@ class IssueController extends Controller
      * @Route("/update/{id}", name="bugtracking_issue_update", requirements={"id"="\d+"})
      * @Template()
      * @TitleTemplate("Edit - Issues")
+     *
+     * @param Request $request
+     * @param Issue $issue
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function updateAction(Issue $issue, Request $request)
+    public function updateAction(Request $request, Issue $issue)
     {
         return $this->update($issue, $request);
     }
 
-    private function update(Issue $issue, Request $request)
+    /**
+     * @param Issue $issue
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    private function update(Issue $issue)
     {
         return $this->get('oro_form.model.update_handler')->handleUpdate(
             $issue,
-            $this->get('oroacademical_bugtracking.form.handler.issue.api')->getForm(),
+            $this->get('oroacademical_bugtracking.form.handler.issue')->getForm(),
             function (Issue $issue) {
                 return [
                     'route' => 'bugtracking_issue_update',
@@ -92,7 +109,7 @@ class IssueController extends Controller
                 ];
             },
             $this->get('translator')->trans('bugtracking.issue.controller.issue_saved_message'),
-            $this->get('oroacademical_bugtracking.form.handler.issue.api')
+            $this->get('oroacademical_bugtracking.form.handler.issue')
         );
     }
 

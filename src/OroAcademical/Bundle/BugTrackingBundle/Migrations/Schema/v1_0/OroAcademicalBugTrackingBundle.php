@@ -3,15 +3,45 @@
 namespace OroAcademical\Bundle\BugTrackingBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
+
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
+use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
-class OroAcademicalBugTrackingBundle implements Installation
+class OroAcademicalBugTrackingBundle implements
+    Installation,
+    ActivityExtensionAwareInterface,
+    NoteExtensionAwareInterface
 {
+    /** @var ActivityExtension */
+    protected $activityExtension;
+
+    /** @var NoteExtension */
+    protected $noteExtension;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setActivityExtension(ActivityExtension $activityExtension)
+    {
+        $this->activityExtension = $activityExtension;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setNoteExtension(NoteExtension $noteExtension)
+    {
+        $this->noteExtension = $noteExtension;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -37,6 +67,9 @@ class OroAcademicalBugTrackingBundle implements Installation
         $this->addBugtrackingIssuesForeignKeys($schema);
         $this->addBugtrackingIssuesToOroTagTagForeignKeys($schema);
         $this->addBugtrackingIssuesToOroUserUserForeignKeys($schema);
+
+        $this->addActivityAssociations($schema, $this->activityExtension);
+        $this->addNoteAssociations($schema, $this->noteExtension);
     }
 
     /**
@@ -229,5 +262,27 @@ class OroAcademicalBugTrackingBundle implements Installation
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
+    }
+
+    /**
+     * Enables Email activity for User entity
+     *
+     * @param Schema            $schema
+     * @param ActivityExtension $activityExtension
+     */
+    protected function addActivityAssociations(Schema $schema, ActivityExtension $activityExtension)
+    {
+        $activityExtension->addActivityAssociation($schema, 'oro_email', 'bugtracking_issues', true);
+    }
+
+    /**
+     * Enable notes for Account entity
+     *
+     * @param Schema        $schema
+     * @param NoteExtension $noteExtension
+     */
+    protected function addNoteAssociations(Schema $schema, NoteExtension $noteExtension)
+    {
+        $noteExtension->addNoteAssociation($schema, 'bugtracking_issues');
     }
 }
