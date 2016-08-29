@@ -1,11 +1,11 @@
 <?php
 
-namespace OroAcademical\Bundle\BugTrackingBundle\Tests\Functional\Api\Rest;
+namespace OroAcademical\Bundle\BugTrackingBundle\Tests\Functional\Controller\Api\Rest;
 
-use OroAcademical\Bundle\BugTrackingBundle\Migrations\Data\ORM\LoadIssueTypes;
 use Symfony\Component\HttpFoundation\Response;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\UserBundle\Entity\User;
 
 use OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType;
 use OroAcademical\Bundle\BugTrackingBundle\Entity\Priority;
@@ -24,16 +24,20 @@ class IssueControllerTest extends WebTestCase
         'code' => 'TI',
         'description' => 'Test Issue Description',
         'status' => 1,
-        'type' => 1,
-        'priority' => 1,
-        'resolution' => 1,
-        'reporter' => 1,
-        'assignee' => 1,
+        'type' => ['name' => IssueType::BUG_TYPE],
+        'priority' => ['name' => Priority::BLOCKER_PRIORITY],
+        'resolution' => ['name' => Resolution::CANNOT_REPRODUCE_RESOLUTION],
+        'reporter' => 'simple_user',
+        'assignee' => 'simple_user',
     ];
 
     protected function setUp()
     {
         $this->initClient(array(), $this->generateWsseAuthHeader());
+        $this->loadFixtures([
+            'Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData',
+            'Oro\Bundle\TestFrameworkBundle\Fixtures\LoadUserData',
+        ]);
     }
 
     /**
@@ -41,6 +45,14 @@ class IssueControllerTest extends WebTestCase
      */
     public function testPost()
     {
+        /** @var User $user */
+        $user = $this->getReference('simple_user');
+        $this->issueData['type'] = $this->findEntityIdBy(IssueType::class, $this->issueData['type']);
+        $this->issueData['priority'] = $this->findEntityIdBy(Priority::class, $this->issueData['priority']);
+        $this->issueData['resolution'] = $this->findEntityIdBy(Resolution::class, $this->issueData['resolution']);
+        $this->issueData['reporter'] = $this->getReference($this->issueData['reporter'])->getId();
+        $this->issueData['assignee'] = $this->getReference($this->issueData['assignee'])->getId();
+
         $request = ['bugtracking_issue_api_form' => $this->issueData];
 
         $this->client->request(
@@ -149,11 +161,11 @@ class IssueControllerTest extends WebTestCase
             'code' => 'UTI',
             'description' => 'Updated Description',
             'status' => 2,
-            'type' => 1,
-            'priority' => 1,
-            'resolution' => 1,
-            'reporter' => 1,
-            'assignee' => 1,
+            'type' => $this->findEntityIdBy(IssueType::class, ['name' => IssueType::TASK_TYPE]),
+            'priority' => $this->findEntityIdBy(Priority::class, ['name' => Priority::MAJOR_PRIORITY]),
+            'resolution' => $this->findEntityIdBy(Resolution::class, ['name' => Resolution::FIXED_RESOLUTION]),
+            'reporter' => $this->getReference('simple_user')->getId(),
+            'assignee' => $this->getReference('simple_user')->getId(),
         ];
 
         $this->client->request(
@@ -176,6 +188,9 @@ class IssueControllerTest extends WebTestCase
 
         $expectedIssue = array_merge($originalIssue, array_slice($putData, 0, 4));
         unset($expectedIssue['updated']);
+        $expectedIssue['type'] = IssueType::TASK_TYPE;
+        $expectedIssue['priority'] = Priority::MAJOR_PRIORITY;
+        $expectedIssue['resolution'] = Resolution::FIXED_RESOLUTION;
 
         $this->assertArrayIntersectEquals($expectedIssue, $updatedIssue);
 
@@ -203,5 +218,15 @@ class IssueControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertJsonResponseStatusCodeEquals($result, Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @param string $class
+     * @param array $criteria
+     * @return mixed
+     */
+    protected function findEntityIdBy($class, array $criteria)
+    {
+        return $this->getContainer()->get('doctrine')->getRepository($class)->findOneBy($criteria)->getId();
     }
 }
