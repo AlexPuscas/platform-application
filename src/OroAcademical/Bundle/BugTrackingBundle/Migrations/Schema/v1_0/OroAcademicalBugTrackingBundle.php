@@ -55,7 +55,7 @@ class OroAcademicalBugTrackingBundle implements
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        /** Tables generation **/
+        /** Tables generation */
         $this->createBugtrackingIssueTypesTable($schema);
         $this->createBugtrackingIssuesTable($schema);
         $this->createBugtrackingIssuesToOroTagTagTable($schema);
@@ -63,7 +63,7 @@ class OroAcademicalBugTrackingBundle implements
         $this->createBugtrackingPrioritiesTable($schema);
         $this->createBugtrackingResolutionsTable($schema);
 
-        /** Foreign keys generation **/
+        /** Foreign keys generation */
         $this->addBugtrackingIssuesForeignKeys($schema);
         $this->addBugtrackingIssuesToOroTagTagForeignKeys($schema);
         $this->addBugtrackingIssuesToOroUserUserForeignKeys($schema);

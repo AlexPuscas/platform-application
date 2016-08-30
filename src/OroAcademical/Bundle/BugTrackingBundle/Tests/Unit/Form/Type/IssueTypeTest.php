@@ -61,7 +61,8 @@ class IssueTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    public function testBuildForm() {
+    public function testBuildForm()
+    {
         $this->issueType = $this->factory->create(new IssueType(), new Issue());
         $fields = [
             'summary' => [

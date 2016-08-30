@@ -38,7 +38,7 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->form = $this->getMock(FormInterface::class);
         $this->request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
-        $this->manager = $this->getMockBuilder(ObjectManager::class)->disableOriginalConstructor()->getMock();;
+        $this->manager = $this->getMockBuilder(ObjectManager::class)->disableOriginalConstructor()->getMock();
 
         $this->handler = new IssueHandler($this->form, $this->request, $this->manager);
     }
@@ -80,7 +80,7 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
     {
         /** @var Issue|\PHPUnit_Framework_MockObject_MockObject $entity */
         $entity = $this->getMock(Issue::class);
-        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();;
+        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
         $entity->expects($this->once())->method('getAssignee')->willReturn(null);
         $user = new User();
         $this->request->expects($this->at(0))->method('get')->with('_widgetContainer')->willReturn('container');
