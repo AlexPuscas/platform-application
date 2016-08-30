@@ -1,0 +1,4 @@
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+<h4>{{ 'bugtracking.issue.assignee_reporter.label'|trans }}</h4>
+{{ dataGrid.renderGrid('dashboard-assigned-reported-issues-grid', { user: entity.id }) }}

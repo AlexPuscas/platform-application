@@ -1,0 +1,26 @@
+services:
+    # Converters
+    oroacademical_bugtracking.importexport.data_converter.issue:
+        parent: oro_importexport.data_converter.configurable
+
+    # Export Processors
+    oroacademical_bugtracking.importexport.processor.export:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, [@oroacademical_bugtracking.importexport.data_converter.issue]]
+        tags:
+            - { name: oro_importexport.processor, type: export, entity: %oroacademical_bugtracking.issue.entity.class%, alias: oroacademical_bugtracking_issue_export }
+
+    # Import Strategy
+    oroacademical_bugtracking.importexport.strategy.isue.add_or_replace:
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    # Import Processor
+    oroacademical_bugtracking.importexport.processor.add_or_replace:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+             - [setDataConverter, [@oroacademical_bugtracking.importexport.data_converter.issue]]
+             - [setStrategy, [@oroacademical_bugtracking.importexport.strategy.isue.add_or_replace]]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: %oroacademical_bugtracking.issue.entity.class%, alias: oroacademical_bugtracking.add_or_replace }
+            - { name: oro_importexport.processor, type: import_validation, entity: %oroacademical_bugtracking.issue.entity.class%, alias: oroacademical_bugtracking.add_or_replace }

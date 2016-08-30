@@ -1,0 +1,37 @@
+OroAcademical\Bundle\BugTrackingBundle\Entity\Issue:
+    properties:
+        summary:
+            - NotBlank: ~
+        code:
+            - NotBlank: ~
+        type:
+            - NotBlank: ~
+        priority:
+            - NotBlank: ~
+        resolution:
+            - NotBlank: ~
+        reporter:
+            - NotBlank: ~
+        assignee:
+            - NotBlank: ~
+
+OroAcademical\Bundle\BugTrackingBundle\Entity\IssueType:
+    properties:
+        name:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~
+
+OroAcademical\Bundle\BugTrackingBundle\Entity\Priority:
+    properties:
+        name:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~
+        priority:
+            - NotBlank: ~
+
+OroAcademical\Bundle\BugTrackingBundle\Entity\Resolution:
+    properties:
+        name:
+            - NotBlank: ~

@@ -1,0 +1,158 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+
+{% block navButtons %}
+    {% if resource_granted('EDIT', entity) %}
+        {{ UI.editButton({
+            'path' : path('bugtracking_issue_update', { id: entity.id }),
+            'entity_label': 'bugtracking.issue.entity.singular_label'|trans
+        }) }}
+    {% endif %}
+
+    {{ UI.deleteButton({
+        'dataUrl': path('bugtracking_issue_api_delete_issue', {'id': entity.id}),
+        'dataRedirect': path('bugtracking_issue_index'),
+        'aCss': 'no-hash remove-button',
+        'id': 'btn-remove-vehicle',
+        'dataId': entity.id,
+        'entity_label': 'bugtracking.issue.entity.singular_label'|trans,
+    }) }}
+    {% if entity.type.id == storyType.id %}
+        {{ UI.addButton({
+            'path' : path('bugtracking_issue_create', { id: entity.id }),
+            'entity_label': 'bugtracking.issue.entity.sub_task'|trans
+    }) }}
+    {% endif %}
+{% endblock navButtons %}
+
+{% block breadcrumb %}
+    {% if breadcrumbs is not defined %}
+        {% set breadcrumbs = [{'label': 'bugtracking.issue.entity.singular_label'|trans }] %}
+        {% if entity.code is not empty %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': entity.code}]) %}
+        {% endif %}
+    {% endif %}
+    {% include 'OroNavigationBundle:Menu:breadcrumbs.html.twig' %}
+{% endblock breadcrumb %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+        'entity':      entity,
+        'indexPath':   path('bugtracking_issue_index'),
+        'indexLabel': 'bugtracking.issue.entity.plural_label'|trans,
+        'entityTitle': entity.summary
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {% set data %}
+        <div class="widget-content">
+            <div class="row-fluid form-horizontal">
+                <div class="responsive-block">
+                    {{ UI.renderProperty('bugtracking.issue.summary.label'|trans, entity.summary) }}
+                    {{ UI.renderProperty('bugtracking.issue.code.label'|trans, entity.code) }}
+                    {{ UI.renderProperty('bugtracking.issue.description.label'|trans, entity.description) }}
+                    {{ UI.renderProperty('bugtracking.issue.taskType.label'|trans, entity.type.name) }}
+                    {{ UI.renderProperty('bugtracking.issue.taskPriority.label'|trans, entity.priority.name) }}
+                    {% if entity.parent %}
+                        {% set link %}
+                            {{ UI.link({
+                                'path': path('bugtracking_issue_view', {id: entity.parent.id}),
+                                'label': entity.parent.summary
+                            }) }}
+                        {% endset %}
+                        {{ UI.renderHtmlProperty('bugtracking.issue.parent.label'|trans, link) }}
+                    {% endif %}
+                    {%- set assigneeData -%}
+                        {%- if entity.assignee -%}
+                            {% if resource_granted('oro_user_user_view') %}
+                                <a href="{{ path('oro_user_view', {'id': entity.assignee.id}) }}">
+                                    {{ entity.assignee|oro_format_name|escape }}
+                                </a>
+                            {% else %}
+                                {{ entity.assignee|oro_format_name|escape }}
+                            {% endif %}
+                        {%- endif -%}
+                    {%- endset -%}
+                    {{ UI.renderHtmlProperty('bugtracking.issue.taskAssignee.label'|trans, assigneeData) }}
+                    {%- set reporterData -%}
+                        {%- if entity.assignee -%}
+                            {% if resource_granted('oro_user_user_view') %}
+                                <a href="{{ path('oro_user_view', {'id': entity.reporter.id}) }}">
+                                    {{ entity.reporter|oro_format_name|escape }}
+                                </a>
+                            {% else %}
+                                {{ entity.reporter|oro_format_name|escape }}
+                            {% endif %}
+                        {%- endif -%}
+                    {%- endset -%}
+                    {{ UI.renderHtmlProperty('bugtracking.issue.taskReporter.label'|trans, reporterData) }}
+
+                    {{ entityConfig.renderDynamicFields(entity) }}
+
+                    {{ UI.renderProperty('bugtracking.issue.status.label'|trans, entity.status is null ? null : ('bugtracking.status.' ~ entity.status )|trans) }}
+                    {{ UI.renderProperty('bugtracking.issue.created.label'|trans, entity.created|date) }}
+                    {{ UI.renderProperty('bugtracking.issue.updated.label'|trans, entity.updated|date) }}
+
+                    <hr/>
+                    {% if entity.collaborators|length > 0 %}
+                        {% for collaborator in entity.collaborators %}
+                            {%- set collaboratorData -%}
+                                {%- if collaborator -%}
+                                    {% if resource_granted('oro_user_user_view') %}
+                                        <a href="{{ path('oro_user_view', {'id': collaborator.id}) }}">
+                                            {{ collaborator|oro_format_name|escape }}
+                                        </a>
+                                    {% else %}
+                                        {{ collaborator|oro_format_name|escape }}
+                                    {% endif %}
+                                {%- endif -%}
+                            {%- endset -%}
+                            {% if loop.first %}
+                                {{ UI.renderHtmlProperty('bugtracking.issue.collaborators.label'|trans, collaboratorData) }}
+                            {% else %}
+                                {{ UI.renderHtmlProperty('', collaboratorData ) }}
+                            {% endif %}
+                        {% endfor %}
+                        <hr/>
+                    {% endif %}
+
+                    {% if entity.type and entity.type.name == constant('STORY_TYPE', entity.type) and entity.relatedIssues|length > 0 %}
+                        <div class="control-group">
+                            {% for childIssue in entity.relatedIssues %}
+                                {% set subTask %}
+                                    {{ UI.link({
+                                        'path': path('bugtracking_issue_view', {id: childIssue.id}),
+                                        'label': childIssue.summary
+                                    }) }}
+                                {% endset %}
+                                {% if loop.first %}
+                                    {{ UI.renderHtmlProperty('bugtracking.issue.subtask.label'|trans, subTask) }}
+                                {% else %}
+                                    {{ UI.renderHtmlProperty('', subTask ) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <hr/>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+    {% endset %}
+    {% set dataBlocks = [
+        {
+            'title': 'Data'|trans,
+            'class': 'active',
+            'subblocks': [
+                { 'data' : [data] }
+            ]
+        }
+    ] %}
+
+    {% set id = 'issueView' %}
+    {% set data = { 'dataBlocks': dataBlocks } %}
+    {{ parent() }}
+{% endblock content_data %}

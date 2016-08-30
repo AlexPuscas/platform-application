@@ -1,0 +1,26 @@
+definitions:
+    issue_note:
+        label: bugtracking.process.issue_collaborators
+        enabled: true
+        entity: Oro\Bundle\NoteBundle\Entity\Note
+        order: 50
+        pre_conditions:
+            @instanceof: [$target, OroAcademical\Bundle\BugTrackingBundle\Entity\Issue]
+        actions_configuration:
+            - @call_method:
+                flush: true
+                parameters:
+                    object: $target
+                    method: setUpdated
+            - @call_method:
+                flush: true
+                parameters:
+                    object: $target
+                    method: addCollaborator
+                    method_parameters: [$owner]
+triggers:
+    issue_note:
+        -
+            event: create
+        -
+            event: update

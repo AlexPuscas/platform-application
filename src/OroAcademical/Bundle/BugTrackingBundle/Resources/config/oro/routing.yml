@@ -1,0 +1,14 @@
+oroacademical_bugtracking_bundle:
+    resource:   "@OroAcademicalBugTrackingBundle/Controller"
+    type:       annotation
+    prefix:     /issue
+
+oroacademical_bugtracking_issue_api:
+    resource:       "@OroAcademicalBugTrackingBundle/Controller/Api/Rest/IssueController.php"
+    type:           rest
+    prefix:         api/rest/{version}/
+    requirements:
+        version:    latest|v1
+        _format:    json
+    defaults:
+        version:    latest
